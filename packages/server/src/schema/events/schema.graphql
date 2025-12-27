@@ -38,6 +38,10 @@ type User {
 type Profile {
   id: ID!
 
+  email: String
+  phoneNumber: String
+  firstName: String!
+  lastName: String!
   userId: ID!
   user: User
   availabilitySlots: [AvailabilitySlot!]
@@ -94,7 +98,14 @@ extend type Query {
   user: User!
 }
 
+input IAvailabilitySlot {
+  dayOfWeek: DayOfWeek!
+  startTime: Int!
+  duration: Int!
+}
+
 extend type Mutation {
   userSignIn(email: String!, password: String!): String!
   userSignUp(email: String!, password: String!, phoneNumber: String!, firstName: String!, lastName: String!): String!
+  profileCreate(email: String, phoneNumber: String, firstName: String!, lastName: String!, availabilitySlots: [IAvailabilitySlot!]!): Profile!
 }

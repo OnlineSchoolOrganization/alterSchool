@@ -50,6 +50,11 @@ model User {
 model Profile {
   id String @id @default(uuid()) @db.Uuid
 
+  email String? @db.VarChar(255)
+  phoneNumber String? @db.VarChar(20)
+  firstName String @db.VarChar(64)
+  lastName String @db.VarChar(64)
+
   userId String @db.Uuid
   user User @relation(fields: [userId], references: [id])
   availabilitySlots AvailabilitySlot[]

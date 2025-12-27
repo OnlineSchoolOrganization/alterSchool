@@ -37,6 +37,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/profile/create': RouteRecordInfo<
+      '/profile/create',
+      '/profile/create',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/test': RouteRecordInfo<
       '/test',
       '/test',
@@ -66,6 +73,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/auth/register.vue': {
       routes:
         | '/auth/register'
+      views:
+        | never
+    }
+    'src/views/profile/create.vue': {
+      routes:
+        | '/profile/create'
       views:
         | never
     }
