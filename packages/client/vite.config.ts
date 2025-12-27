@@ -4,14 +4,17 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 import VueRouter from 'unplugin-vue-router/vite'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
     VueRouter({
-      routesFolder: "src/views",
+      routesFolder: 'src/views',
     }),
-    vue(), vueDevTools(),
+    vue(),
+    vueDevTools(),
+    tailwindcss(),
   ],
   resolve: {
     alias: {

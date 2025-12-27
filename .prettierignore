@@ -1,0 +1,9 @@
+# Ignore artifacts:
+build
+coverage
+.next
+node_modules
+*generated*
+api/gql.ts
+api/graphql.ts
+api/index.ts

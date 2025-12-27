@@ -8,10 +8,11 @@
     "dev:client": "pnpm --filter client dev",
     "dev:codegen": "pnpm graphql-codegen --watch",
     "dev": "run-p -l dev:*",
-    "codegen": "pnpm graphql-codegen"
+    "codegen": "pnpm graphql-codegen",
+    "format": "pnpm prettier . --write"
   },
   "license": "UNLICENSED",
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+  "packageManager": "pnpm@10.26.2+sha512.0e308ff2005fc7410366f154f625f6631ab2b16b1d2e70238444dd6ae9d630a8482d92a451144debc492416896ed16f7b114a86ec68b8404b2443869e68ffda6",
   "devDependencies": {
     "@eddeee888/gcg-typescript-resolver-files": "^0.12.2",
     "@graphql-codegen/cli": "^5.0.7",
@@ -22,6 +23,10 @@
     "cross-env": "^7.0.3",
     "npm-run-all2": "^8.0.4",
     "prettier": "^3.7.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "graphql-scalars": "^1.25.0"
   }
 }

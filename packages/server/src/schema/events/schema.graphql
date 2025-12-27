@@ -1,13 +1,100 @@
-type Event {
+scalar DateTime
+
+enum UserRole {
+  SUPER_USER
+  STAFF
+  TEACHER
+  USER
+  GUEST
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+union RoleProfile = Teacher | Student 
+
+type User {
   id: ID!
-  name: String!
-  derived: String!
+  email: String!
+
+  phoneNumber: String!
+  firstName: String!
+  lastName: String!
+
+  role: UserRole!
+  profiles: [Profile!]
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Profile {
+  id: ID!
+
+  userId: ID!
+  user: User
+  availabilitySlots: [AvailabilitySlot!]
+
+  roleProfile: RoleProfile
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+interface Role {
+  id: ID!
+  profileId: ID!
+  profile: Profile
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Student implements Role {
+  id: ID!
+  profileId: ID!
+  profile: Profile
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  teachers: [Teacher!]
+}
+
+type Teacher implements Role {
+  id: ID!
+  profileId: ID!
+  profile: Profile
+  createdAt: DateTime!
+  updatedAt: DateTime!
+
+  students: [Student!]
+}
+
+type AvailabilitySlot {
+  id: ID!
+
+  profileId: ID!
+  profile: Profile
+
+  dayOfWeek: DayOfWeek!
+  startTime: Int!
+  duration: Int!
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 extend type Query {
-  events(filter: String): [Event!]!
+  user: User!
 }
 
 extend type Mutation {
-  createEvent(name: String!): Event!
+  userSignIn(email: String!, password: String!): String!
+  userSignUp(email: String!, password: String!, phoneNumber: String!, firstName: String!, lastName: String!): String!
 }

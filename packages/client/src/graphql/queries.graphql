@@ -1,7 +1,5 @@
-query EventsList($filter: String) {
-  events(filter: $filter) {
-    derived
+query me {
+  user {
     id
-    name
   }
 }
