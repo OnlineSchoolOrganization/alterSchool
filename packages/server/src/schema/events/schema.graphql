@@ -18,7 +18,7 @@ enum DayOfWeek {
   SUNDAY
 }
 
-union RoleProfile = Teacher | Student 
+union RoleProfile = Teacher | Student
 
 type User {
   id: ID!
@@ -28,7 +28,7 @@ type User {
   firstName: String!
   lastName: String!
 
-  role: UserRole!
+  role: [UserRole!]
   profiles: [Profile!]
 
   createdAt: DateTime!
@@ -96,6 +96,7 @@ type AvailabilitySlot {
 
 extend type Query {
   user: User!
+  teachers: [Teacher!]!
 }
 
 input IAvailabilitySlot {
@@ -107,5 +108,12 @@ input IAvailabilitySlot {
 extend type Mutation {
   userSignIn(email: String!, password: String!): String!
   userSignUp(email: String!, password: String!, phoneNumber: String!, firstName: String!, lastName: String!): String!
-  profileCreate(email: String, phoneNumber: String, firstName: String!, lastName: String!, availabilitySlots: [IAvailabilitySlot!]!): Profile!
+  profileCreate(
+    email: String
+    phoneNumber: String
+    firstName: String!
+    lastName: String!
+    availabilitySlots: [IAvailabilitySlot!]!
+    type: UserRole!
+  ): Profile!
 }

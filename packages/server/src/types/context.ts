@@ -1,4 +1,4 @@
-import { PrismaClient, User } from "../generated/prisma"
+import { PrismaClient, User } from '../generated/prisma'
 
 export interface UserContext {
   prisma: PrismaClient

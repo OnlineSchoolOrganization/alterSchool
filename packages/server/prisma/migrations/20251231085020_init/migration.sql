@@ -12,7 +12,7 @@ CREATE TABLE "User" (
     "phoneNumber" VARCHAR(20) NOT NULL,
     "firstName" VARCHAR(64) NOT NULL,
     "lastName" VARCHAR(64) NOT NULL,
-    "role" "UserRole" NOT NULL DEFAULT 'USER',
+    "role" "UserRole"[],
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -22,6 +22,10 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Profile" (
     "id" UUID NOT NULL,
+    "email" VARCHAR(255),
+    "phoneNumber" VARCHAR(20),
+    "firstName" VARCHAR(64) NOT NULL,
+    "lastName" VARCHAR(64) NOT NULL,
     "userId" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

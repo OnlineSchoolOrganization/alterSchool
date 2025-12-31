@@ -40,7 +40,7 @@ model User {
   firstName String @db.VarChar(64)
   lastName String @db.VarChar(64)
 
-  role      UserRole @default(USER)
+  role      UserRole[] @default([USER])
   profiles Profile[]
 
   createdAt   DateTime @default(now())
