@@ -8,8 +8,6 @@ const TEACHER_DOCUMENT = gql`
   query Teacher {
     teachers {
       id
-      firstName
-      lastName
     }
   }
 `

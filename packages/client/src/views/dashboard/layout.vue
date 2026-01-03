@@ -1,11 +1,5 @@
 <script setup lang="ts">
-const menu = [
-  { name: 'Teacher', link: '/teacher' },
-  { name: 'Teacher', link: '/teacher' },
-  { name: 'Teacher', link: '/teacher' },
-  { name: 'Teacher', link: '/teacher' },
-  { name: 'Teacher', link: '/teacher' },
-]
+const menu = [{ name: 'Users', link: '/users' }]
 </script>
 <template>
   <div class="h-screen flex bg-gray-50 text-gray-800">
@@ -16,7 +10,7 @@ const menu = [
 
         <ul class="space-y-2">
           <li v-for="item in menu" :key="item.name">
-            <a :href="'/dashboard/su' + item.link" class="block rounded px-3 py-2 hover:bg-gray-200">
+            <a :href="'/dashboard' + item.link" class="block rounded px-3 py-2 hover:bg-gray-200">
               {{ item.name }}
             </a>
           </li>

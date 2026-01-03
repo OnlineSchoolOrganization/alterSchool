@@ -9,7 +9,7 @@ const route = useRoute()
 const profileId = route.params.profileId as string
 
 const UserDocument = gql`
-  query User {
+  query User2 {
     user {
       profiles {
         id

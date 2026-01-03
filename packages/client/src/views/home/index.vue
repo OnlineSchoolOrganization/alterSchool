@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { type User } from '@/api/graphql'
-import { gql } from '@apollo/client'
+import { type User, type User1Query } from '@/api/graphql'
+import { graphql } from '@/api'
 import { useQuery } from '@vue/apollo-composable'
 import { ref } from 'vue'
-const UserDocument = gql`
-  query User {
+const UserDocument = graphql(`
+  query User1 {
     user {
       id
       firstName
@@ -16,9 +16,9 @@ const UserDocument = gql`
       }
     }
   }
-`
+`)
 const { onResult, loading } = useQuery(UserDocument)
-const userData = ref<User | null>(null)
+const userData = ref<User1Query['user'] | null>(null)
 onResult(result => {
   if (result.data) userData.value = result.data.user
 })
