@@ -65,6 +65,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/dashboard/users/[id]': RouteRecordInfo<
+      '/dashboard/users/[id]',
+      '/dashboard/users/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
     '/dashboard/users/row': RouteRecordInfo<
       '/dashboard/users/row',
       '/dashboard/users/row',
@@ -139,6 +146,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/dashboard/users/index.vue': {
       routes:
         | '/dashboard/users/'
+      views:
+        | never
+    }
+    'src/views/dashboard/users/[id].vue': {
+      routes:
+        | '/dashboard/users/[id]'
       views:
         | never
     }

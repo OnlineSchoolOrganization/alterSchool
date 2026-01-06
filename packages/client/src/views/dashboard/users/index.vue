@@ -10,18 +10,19 @@ const USERS_DOCUMENT = graphql(`
     users(filter: $filter, skip: $skip, take: $take) {
       id
       ...UserRow
+      ...UserView
     }
     usersCount(filter: $filter)
   }
 `)
 
-
+const filterInput = ref('')
 const filter = ref('')
 const take = 10
 const page = ref(1)
 const skip = computed(() => (page.value - 1) * take)
 
-const { result, loading, refetch } = useQuery(USERS_DOCUMENT, () => ({
+const { result, loading } = useQuery(USERS_DOCUMENT, () => ({
   filter: filter.value,
   skip: skip.value,
   take: take,
@@ -34,10 +35,10 @@ const total = computed(() => result.value?.usersCount ?? 0)
   <layout>
     <div v-if="loading">Loading...</div>
     <div>
-      <form class="flex gap-2 mb-4" @submit.prevent="refetch({ filter, skip: 0, take })">
+      <form class="flex gap-2 mb-4" @submit.prevent="() => { filter = filterInput; page = 1; skip = 0 }">
         <input
           type="text"
-          v-model="filter"
+          v-model="filterInput"
           placeholder="Filter by email"
           class="flex-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
