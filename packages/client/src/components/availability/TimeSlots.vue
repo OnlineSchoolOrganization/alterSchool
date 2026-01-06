@@ -8,7 +8,7 @@ type AvailabilitySlot = {
 }
 
 const props = defineProps<{
-  availabilitySlots: AvailabilitySlot[]
+  availabilitySlots?: AvailabilitySlot[] | null
 }>()
 
 const emit = defineEmits<{
@@ -22,7 +22,7 @@ const days: string[] = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sambată
 const daysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 
 function isSelected(dayOfWeek: string, startTime: number) {
-  return props.availabilitySlots.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime)
+  return props.availabilitySlots?.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime)
 }
 </script>
 

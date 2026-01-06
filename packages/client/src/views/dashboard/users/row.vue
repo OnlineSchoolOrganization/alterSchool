@@ -155,9 +155,12 @@ async function teacherRemove() {
 <template>
   <tr>
     <td class="border p-2">
-      <a :href="`/dashboard/users/${user.id}`">
+      <router-link
+        :to="`/dashboard/users/${user.id}`"
+        class="text-blue-600 hover:underline"
+      >
         {{ user.email }}
-      </a>
+      </router-link>
     </td>
     <td class="border p-2">{{ user.firstName }}</td>
     <td class="border p-2">{{ user.lastName }}</td>

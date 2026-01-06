@@ -20,6 +20,7 @@ export const teacherAdd: NonNullable<MutationResolvers['teacherAdd']> = async (_
       email: user.email || '',
       firstName: user.firstName || '',
       lastName: user.lastName || '',
+      phoneNumber: user.phoneNumber || '',
       teacher: { create: {} },
     },
   })
