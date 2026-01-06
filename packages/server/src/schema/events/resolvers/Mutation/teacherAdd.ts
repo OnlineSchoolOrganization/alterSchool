@@ -24,7 +24,7 @@ export const teacherAdd: NonNullable<MutationResolvers['teacherAdd']> = async (_
       teacher: { create: {} },
     },
   })
-  await prisma.user.update({
+  if(!user.role.includes('TEACHER')) await prisma.user.update({
     where: { id: _arg.userId },
     data: {
       role: {
