@@ -19,17 +19,17 @@ const USER_VIEW_FRAGMENT = graphql(`
 `)
 
 const GET_USER_BY_ID = graphql(`
-  query GetUserById($id: ID!) {
-    userById(id: $id) {
+  query GetUserById($userId: ID) {
+    me(userId: $userId) {
       ...UserView
     }
   }
 `)
 
-const { result, loading, error } = useQuery(GET_USER_BY_ID, { id: userId })
+const { result, loading, error } = useQuery(GET_USER_BY_ID, { userId: userId })
 
 const user = computed(() => {
-  const userData = result.value?.userById
+  const userData = result.value?.me
   return userData ? useFragment(USER_VIEW_FRAGMENT, userData) : null
 })
 

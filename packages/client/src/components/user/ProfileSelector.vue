@@ -30,7 +30,6 @@ const selectedId = ref<string | null>(null)
 
 function selectProfile(id: string) {
   selectedId.value = id
-  console.log(selectedProfile.value);
 }
 
 const selectedProfile = computed(() => 

@@ -37,6 +37,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/dashboard/': RouteRecordInfo<
+      '/dashboard/',
+      '/dashboard',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/dashboard/layout': RouteRecordInfo<
       '/dashboard/layout',
       '/dashboard/layout',
@@ -65,18 +72,25 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/dashboard/users/[id]': RouteRecordInfo<
-      '/dashboard/users/[id]',
-      '/dashboard/users/:id',
-      { id: ParamValue<true> },
-      { id: ParamValue<false> },
-      | never
-    >,
     '/dashboard/users/row': RouteRecordInfo<
       '/dashboard/users/row',
       '/dashboard/users/row',
       Record<never, never>,
       Record<never, never>,
+      | never
+    >,
+    '/dashboard/users/test/': RouteRecordInfo<
+      '/dashboard/users/test/',
+      '/dashboard/users/test',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/dashboard/users/test/[id]': RouteRecordInfo<
+      '/dashboard/users/test/[id]',
+      '/dashboard/users/test/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
       | never
     >,
     '/home/': RouteRecordInfo<
@@ -125,6 +139,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/dashboard/index.vue': {
+      routes:
+        | '/dashboard/'
+      views:
+        | never
+    }
     'src/views/dashboard/layout.vue': {
       routes:
         | '/dashboard/layout'
@@ -149,15 +169,21 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/dashboard/users/[id].vue': {
-      routes:
-        | '/dashboard/users/[id]'
-      views:
-        | never
-    }
     'src/views/dashboard/users/row.vue': {
       routes:
         | '/dashboard/users/row'
+      views:
+        | never
+    }
+    'src/views/dashboard/users/test/index.vue': {
+      routes:
+        | '/dashboard/users/test/'
+      views:
+        | never
+    }
+    'src/views/dashboard/users/test/[id].vue': {
+      routes:
+        | '/dashboard/users/test/[id]'
       views:
         | never
     }

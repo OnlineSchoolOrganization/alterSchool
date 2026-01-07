@@ -10,7 +10,6 @@ const USERS_DOCUMENT = graphql(`
     users(filter: $filter, skip: $skip, take: $take) {
       id
       ...UserRow
-      ...UserView
     }
     usersCount(filter: $filter)
   }
