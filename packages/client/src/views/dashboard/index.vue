@@ -1,9 +1,9 @@
 <script setup lang="ts">
-    import layout from './layout.vue';
+import layout from './layout.vue'
 </script>
 <template>
-    <layout>
-        <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
-        <p>Welcome to the dashboard!</p>
-    </layout>
+  <layout>
+    <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+    <p>Welcome to the dashboard!</p>
+  </layout>
 </template>

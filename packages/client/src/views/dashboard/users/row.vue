@@ -2,19 +2,6 @@
 import { graphql, useFragment, type FragmentType } from '@/api'
 import { useMutation } from '@vue/apollo-composable'
 import { computed } from 'vue'
-import { useMenu } from '../menu'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const { redefineSuMenu } = useMenu()
-
-function onSelectUser(userId: string) {
-  // 1️⃣ logică
-  redefineSuMenu(userId)
-
-  // 2️⃣ redirect SPA (fără reload)
-  router.push(`/dashboard/users/${userId}`)
-}
 
 const UserRow = graphql(`
   fragment UserRow on User {
@@ -91,10 +78,7 @@ const { mutate: teacherAddMutate, loading: teacherAddLoading } = useMutation(Tea
         fragmentName: 'UserRow',
         data: {
           ...userInCache,
-          profiles: [
-            ...(userInCache.profiles || []),
-            data?.teacherAdd,
-          ],
+          profiles: [...(userInCache.profiles || []), data?.teacherAdd],
         },
       })
     }
@@ -166,42 +150,60 @@ async function teacherRemove() {
 </script>
 
 <template>
-  <tr>
-    <td class="border p-2">
-      <div class="text-blue-600 hover:underline cursor-pointer" @click="redefineSuMenu(user.id)">
-        {{ user.email }}
+  <tr class="group hover:bg-white/[0.03] transition-all border-b border-zinc-800/50 last:border-0">
+    <td class="p-4 w-1/3">
+      <div class="flex flex-col gap-0.5">
+        <router-link
+          :to="`/dashboard/user/${user.id}`"
+          class="text-zinc-100 font-semibold hover:text-[#d4af37] transition-colors text-[14px]"
+        >
+          {{ user.email }}
+        </router-link>
+        <span class="text-[10px] font-mono text-zinc-500 tracking-wider">ID: {{ user.id.slice(0, 12) }}</span>
       </div>
     </td>
-    <td class="border p-2">{{ user.firstName }}</td>
-    <td class="border p-2">{{ user.lastName }}</td>
-    <td class="border p-2">
-      <div class="flex items-center gap-2">
-        <span>
-          {{ user.profiles?.filter(p => p.roleProfile?.__typename === 'Teacher' && !p.deleted).length }}
-        </span>
 
-        <button
-          class="px-2 py-1 text-xs rounded bg-green-600 text-white disabled:opacity-50"
-          :disabled="isTeacher || loading"
-          @click="teacherAdd"
-        >
-          <span v-if="teacherAddLoading">Adding...</span>
-          <span v-else>Add</span>
-        </button>
+    <td class="p-4">
+      <span class="text-zinc-300 text-sm font-medium"> {{ user.firstName }} {{ user.lastName }} </span>
+    </td>
 
+    <td class="p-4">
+      <div class="flex items-center justify-center">
         <button
-          class="px-2 py-1 text-xs rounded bg-red-600 text-white disabled:opacity-50"
-          :disabled="!isTeacher || loading"
+          v-if="isTeacher"
           @click="teacherRemove"
+          :disabled="loading || teacherRemoveLoading"
+          class="cursor-pointer min-w-[120px] px-4 py-1.5 rounded border border-red-500/20 bg-red-500/5 text-red-400 text-[11px] font-bold uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all disabled:opacity-20"
         >
-          <span v-if="teacherRemoveLoading">Removing...</span>
-          <span v-else>Remove</span>
+          <span v-if="teacherRemoveLoading">Procesare...</span>
+          <span v-else>Remove Teacher</span>
+        </button>
+
+        <button
+          v-else
+          @click="teacherAdd"
+          :disabled="loading || teacherAddLoading"
+          class="cursor-pointer min-w-[120px] px-4 py-1.5 rounded border border-[#d4af37]/30 bg-[#d4af37]/5 text-[#d4af37] text-[11px] font-bold uppercase tracking-widest hover:bg-[#d4af37] hover:text-black transition-all disabled:opacity-20"
+        >
+          <span v-if="teacherAddLoading">Procesare...</span>
+          <span v-else>Add Teacher</span>
         </button>
       </div>
     </td>
-    <td class="border p-2">
-      {{ user.profiles?.filter(p => p.roleProfile && p.roleProfile.__typename === 'Student' && !p.deleted).length }}
+
+    <td class="p-4 text-center">
+      <div
+        class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 text-[10px] font-bold border border-zinc-700"
+      >
+        {{ user.profiles?.filter(p => p.roleProfile?.__typename === 'Student' && !p.deleted).length }} STUDENȚI
+      </div>
     </td>
-    <td class="border p-2">{{ user.profiles?.filter(p => p.deleted).length }}</td>
+
+    <td class="p-4 text-right">
+      <span v-if="user.profiles?.filter(p => p.deleted).length" class="text-red-500/40 font-mono text-xs">
+        [{{ user.profiles?.filter(p => p.deleted).length }}]
+      </span>
+      <span v-else class="text-zinc-800 text-xs">-</span>
+    </td>
   </tr>
 </template>

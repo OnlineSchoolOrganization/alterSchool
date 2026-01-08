@@ -19,27 +19,27 @@ const user = useFragment(USER_HEADER_FRAGMENT, props.user)
 </script>
 
 <template>
-  <div class="p-8 md:p-10 bg-slate-900/50">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-      <div class="space-y-2">
-        <div class="flex items-center gap-2 text-indigo-400 font-bold text-xs uppercase tracking-[0.3em]">
-          <span class="w-8 h-[1px] bg-indigo-500"></span>
-          User Management
+  <div class="p-8 md:p-12 bg-gradient-to-b from-white/[0.02] to-transparent">
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-3">
+          <div class="h-px w-8 bg-[#c5a47e]"></div>
+          <span class="text-[#c5a47e] font-bold text-[10px] uppercase tracking-[0.4em]">Management Utilizator</span>
         </div>
-        <h1 class="text-4xl font-black text-white tracking-tight">
-          {{ user.firstName }} <span class="text-slate-500">{{ user.lastName }}</span>
+        <h1 class="text-4xl md:text-5xl font-bold text-zinc-100 tracking-tight">
+          {{ user.firstName }} <span class="text-zinc-500 font-light">{{ user.lastName }}</span>
         </h1>
       </div>
 
-      <div class="flex flex-wrap gap-4 text-sm">
-        <div class="flex flex-col">
-          <span class="text-slate-500 text-[10px] uppercase font-bold">Email Principal</span>
-          <span class="text-slate-200">{{ user.email }}</span>
+      <div class="flex items-center gap-8 bg-[#0a0a0b] p-6 rounded-lg border border-zinc-800/50">
+        <div class="flex flex-col gap-1">
+          <span class="text-zinc-500 text-[10px] uppercase font-bold tracking-widest">Identificator Email</span>
+          <span class="text-zinc-200 text-sm font-medium">{{ user.email }}</span>
         </div>
-        <div class="w-[1px] h-8 bg-slate-800 hidden md:block"></div>
-        <div class="flex flex-col">
-          <span class="text-slate-500 text-[10px] uppercase font-bold">Rol Sistem</span>
-          <span class="text-indigo-400 font-mono">{{ user.role?.join(', ') }}</span>
+        <div class="w-px h-10 bg-zinc-800"></div>
+        <div class="flex flex-col gap-1">
+          <span class="text-zinc-500 text-[10px] uppercase font-bold tracking-widest">Nivel Acces</span>
+          <span class="text-[#c5a47e] font-mono text-xs uppercase tracking-wider">{{ user.role?.join(' • ') }}</span>
         </div>
       </div>
     </div>

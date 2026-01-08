@@ -1,49 +1,44 @@
-import { ref, watch } from 'vue'
+import { computed, type ComputedRef } from 'vue'
+import { type MeQuery } from '@/api/graphql'
+import { useRoute } from 'vue-router'
 
 type MenuItem = {
   name: string
   link: string
 }
 
-type Menu = {
+export type MenuCategory = {
   category: string
   items: MenuItem[]
 }
 
-const menu = ref<Menu[]>([
-    {
+export function useMenu(user: ComputedRef<MeQuery['me'] | undefined | null>) {
+  const route = useRoute()
+
+  const menu = computed<MenuCategory[]>(() => {
+    const categories: MenuCategory[] = []
+
+    if (user.value?.role?.includes('SUPER_USER')) {
+      categories.push({
         category: 'super user',
-        items: []
-    },
-    {
-        category: 'user',
-        items: []
+        items: [{ name: 'Users', link: '/dashboard/users' }],
+      })
     }
-])
 
-export function useMenu() {
-  function initBaseMenu() {
-    if(menu.value[1]) menu.value[1].items = [
-        { name: 'User', link: '/dashboard/user' },
-    ]
-  }
+    const userId = (route.params.id as string) || ''
+    const userLink = userId ? `/dashboard/user/${userId}` : '/dashboard/user'
+    const testLink = userId ? `/dashboard/test/${userId}` : '/dashboard/test'
 
-  function initSuMenu() {
-    if(menu.value[0]) menu.value[0].items = [
-      { name: 'Users', link: '/dashboard/users' },
-    ]
-  }
+    categories.push({
+      category: 'user',
+      items: [
+        { name: 'User', link: userLink },
+        { name: 'Test', link: testLink },
+      ],
+    })
 
-  function redefineSuMenu(id: string) {
-    if(menu.value[1]) menu.value[1].items = [
-      { name: 'User', link: '/dashboard/user/' + id },
-    ]
-  }
+    return categories
+  })
 
-  return {
-    menu,
-    initSuMenu,
-    initBaseMenu,
-    redefineSuMenu,
-  }
+  return { menu }
 }

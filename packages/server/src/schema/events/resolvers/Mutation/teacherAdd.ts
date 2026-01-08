@@ -24,13 +24,14 @@ export const teacherAdd: NonNullable<MutationResolvers['teacherAdd']> = async (_
       teacher: { create: {} },
     },
   })
-  if(!user.role.includes('TEACHER')) await prisma.user.update({
-    where: { id: _arg.userId },
-    data: {
-      role: {
-        push: 'TEACHER',
+  if (!user.role.includes('TEACHER'))
+    await prisma.user.update({
+      where: { id: _arg.userId },
+      data: {
+        role: {
+          push: 'TEACHER',
+        },
       },
-    },
-  })
+    })
   return profile
 }
