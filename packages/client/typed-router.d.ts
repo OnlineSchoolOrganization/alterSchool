@@ -51,18 +51,18 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/dashboard/teacher/': RouteRecordInfo<
-      '/dashboard/teacher/',
-      '/dashboard/teacher',
+    '/dashboard/user/': RouteRecordInfo<
+      '/dashboard/user/',
+      '/dashboard/user',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/dashboard/teacher/add': RouteRecordInfo<
-      '/dashboard/teacher/add',
-      '/dashboard/teacher/add',
-      Record<never, never>,
-      Record<never, never>,
+    '/dashboard/user/[id]': RouteRecordInfo<
+      '/dashboard/user/[id]',
+      '/dashboard/user/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
       | never
     >,
     '/dashboard/users/': RouteRecordInfo<
@@ -75,41 +75,6 @@ declare module 'vue-router/auto-routes' {
     '/dashboard/users/row': RouteRecordInfo<
       '/dashboard/users/row',
       '/dashboard/users/row',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/dashboard/users/test/': RouteRecordInfo<
-      '/dashboard/users/test/',
-      '/dashboard/users/test',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/dashboard/users/test/[id]': RouteRecordInfo<
-      '/dashboard/users/test/[id]',
-      '/dashboard/users/test/:id',
-      { id: ParamValue<true> },
-      { id: ParamValue<false> },
-      | never
-    >,
-    '/home/': RouteRecordInfo<
-      '/home/',
-      '/home',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/home/[profileId]': RouteRecordInfo<
-      '/home/[profileId]',
-      '/home/:profileId',
-      { profileId: ParamValue<true> },
-      { profileId: ParamValue<false> },
-      | never
-    >,
-    '/profile/create': RouteRecordInfo<
-      '/profile/create',
-      '/profile/create',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -151,15 +116,15 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/dashboard/teacher/index.vue': {
+    'src/views/dashboard/user/index.vue': {
       routes:
-        | '/dashboard/teacher/'
+        | '/dashboard/user/'
       views:
         | never
     }
-    'src/views/dashboard/teacher/add.vue': {
+    'src/views/dashboard/user/[id].vue': {
       routes:
-        | '/dashboard/teacher/add'
+        | '/dashboard/user/[id]'
       views:
         | never
     }
@@ -172,36 +137,6 @@ declare module 'vue-router/auto-routes' {
     'src/views/dashboard/users/row.vue': {
       routes:
         | '/dashboard/users/row'
-      views:
-        | never
-    }
-    'src/views/dashboard/users/test/index.vue': {
-      routes:
-        | '/dashboard/users/test/'
-      views:
-        | never
-    }
-    'src/views/dashboard/users/test/[id].vue': {
-      routes:
-        | '/dashboard/users/test/[id]'
-      views:
-        | never
-    }
-    'src/views/home/index.vue': {
-      routes:
-        | '/home/'
-      views:
-        | never
-    }
-    'src/views/home/[profileId].vue': {
-      routes:
-        | '/home/[profileId]'
-      views:
-        | never
-    }
-    'src/views/profile/create.vue': {
-      routes:
-        | '/profile/create'
       views:
         | never
     }

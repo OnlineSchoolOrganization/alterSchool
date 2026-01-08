@@ -2,6 +2,19 @@
 import { graphql, useFragment, type FragmentType } from '@/api'
 import { useMutation } from '@vue/apollo-composable'
 import { computed } from 'vue'
+import { useMenu } from '../menu'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+const { redefineSuMenu } = useMenu()
+
+function onSelectUser(userId: string) {
+  // 1️⃣ logică
+  redefineSuMenu(userId)
+
+  // 2️⃣ redirect SPA (fără reload)
+  router.push(`/dashboard/users/${userId}`)
+}
 
 const UserRow = graphql(`
   fragment UserRow on User {
@@ -155,12 +168,9 @@ async function teacherRemove() {
 <template>
   <tr>
     <td class="border p-2">
-      <router-link
-        :to="`/dashboard/users/${user.id}`"
-        class="text-blue-600 hover:underline"
-      >
+      <div class="text-blue-600 hover:underline cursor-pointer" @click="redefineSuMenu(user.id)">
         {{ user.email }}
-      </router-link>
+      </div>
     </td>
     <td class="border p-2">{{ user.firstName }}</td>
     <td class="border p-2">{{ user.lastName }}</td>
