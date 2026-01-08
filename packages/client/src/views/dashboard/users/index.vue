@@ -81,7 +81,7 @@ const total = computed(() => result.value?.usersCount ?? 0)
 
     <div v-else class="flex flex-col gap-6">
       <div class="overflow-x-auto">
-        <table class="w-full border-collapse">
+        <table class="w-full min-w-6xl border-collapse">
           <thead>
             <tr class="text-zinc-500 text-[10px] font-bold uppercase tracking-[0.15em] border-b border-zinc-800">
               <th class="p-4 text-left">Cont Utilizator</th>

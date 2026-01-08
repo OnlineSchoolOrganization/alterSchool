@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { RegisterDocument } from '@/api/graphql.ts'
-import TimeSlots from '@/components/availability/timeSlots.vue'
+import TimeSlots from '@/components/availability/TimeSlots.vue'
 import { gql } from '@apollo/client'
 
 type AvailabilitySlot = {
