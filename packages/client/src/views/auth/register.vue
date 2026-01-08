@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { RegisterDocument } from '@/api/graphql.ts'
-import TimeSlots from '@/components/availability/timeSlots.vue'
+import TimeSlots from '@/components/availability/TimeSlots.vue'
 import { gql } from '@apollo/client'
 
 type AvailabilitySlot = {
@@ -25,12 +25,26 @@ const credentials = ref({
 const errorMessage = ref('')
 
 const PROFILE_CREATE = gql`
-    mutation ProfileCreate($email: String, $phoneNumber: String, $firstName: String!, $lastName: String!, $availabilitySlots: [IAvailabilitySlot!]!, type: UserRole!) {
-      profileCreate(email: $email, phoneNumber: $phoneNumber, firstName: $firstName, lastName: $lastName, availabilitySlots: $availabilitySlots, type: $type) {
-        id
-      }
+  mutation ProfileCreate(
+    $email: String
+    $phoneNumber: String
+    $firstName: String!
+    $lastName: String!
+    $availabilitySlots: [IAvailabilitySlot!]!
+    $type: UserRole!
+  ) {
+    profileCreate(
+      email: $email
+      phoneNumber: $phoneNumber
+      firstName: $firstName
+      lastName: $lastName
+      availabilitySlots: $availabilitySlots
+      type: $type
+    ) {
+      id
     }
-  `
+  }
+`
 
 const { mutate: profileCreateMutate, loading: profileCreateLoading } = useMutation(PROFILE_CREATE)
 

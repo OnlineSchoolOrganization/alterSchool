@@ -1,5 +1,7 @@
-query User {
-  user {
+query Me {
+  me {
     id
+    email
+    role
   }
 }

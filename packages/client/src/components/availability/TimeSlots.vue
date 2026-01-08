@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import timeSlot from './timeSlot.vue'
+import TimeSlot from './TimeSlot.vue'
 
 type AvailabilitySlot = {
   dayOfWeek: string
@@ -8,7 +8,7 @@ type AvailabilitySlot = {
 }
 
 const props = defineProps<{
-  availabilitySlots: AvailabilitySlot[]
+  availabilitySlots?: AvailabilitySlot[] | null
 }>()
 
 const emit = defineEmits<{
@@ -22,17 +22,17 @@ const days: string[] = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sambată
 const daysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 
 function isSelected(dayOfWeek: string, startTime: number) {
-  return props.availabilitySlots.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime)
+  return props.availabilitySlots?.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime)
 }
 </script>
 
 <template>
   <div class="flex flex-col gap-4 justify-center items-center">
     <div class="flex gap-4">
-      <timeSlot v-for="day in days" :key="day" :text="day" type="primary" />
+      <TimeSlot v-for="day in days" :key="day" :text="day" type="primary" />
     </div>
     <div class="flex gap-4" v-for="i in hours" :key="i">
-      <timeSlot
+      <TimeSlot
         v-for="value in daysOfWeek"
         :key="value + i"
         :text="`${(start + i * duration - duration) / 60}:00-${(start + i * duration) / 60}:00`"

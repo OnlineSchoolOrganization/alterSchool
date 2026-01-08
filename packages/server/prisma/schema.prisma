@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -11,6 +5,66 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id          String     @id @default(uuid()) @db.Uuid
+  email       String     @unique @db.Citext
+  password    String     @db.VarChar(255)
+  phoneNumber String     @unique @db.VarChar(20)
+  firstName   String     @db.VarChar(64)
+  lastName    String     @db.VarChar(64)
+  role        UserRole[] @default([USER])
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  profiles    Profile[]
+}
+
+model Profile {
+  id                String             @id @default(uuid()) @db.Uuid
+  email             String?            @db.VarChar(255)
+  phoneNumber       String?            @db.VarChar(20)
+  firstName         String             @db.VarChar(64)
+  lastName          String             @db.VarChar(64)
+  userId            String             @db.Uuid
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  deleted           Boolean            @default(false)
+  availabilitySlots AvailabilitySlot[]
+  user              User               @relation(fields: [userId], references: [id])
+  student           Student?
+  teacher           Teacher?
+}
+
+model Student {
+  id        String    @id @default(uuid()) @db.Uuid
+  profileId String    @unique @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  teachers  Teacher[] @relation("StudentToTeacher")
+}
+
+model Teacher {
+  id        String    @id @default(uuid()) @db.Uuid
+  profileId String    @unique @db.Uuid
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profile   Profile   @relation(fields: [profileId], references: [id])
+  students  Student[] @relation("StudentToTeacher")
+}
+
+model AvailabilitySlot {
+  id        String    @id @default(uuid()) @db.Uuid
+  profileId String    @db.Uuid
+  dayOfWeek DayOfWeek
+  startTime Int
+  duration  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  profile   Profile   @relation(fields: [profileId], references: [id])
+
+  @@unique([profileId, dayOfWeek, startTime])
 }
 
 enum UserRole {
@@ -29,82 +83,4 @@ enum DayOfWeek {
   FRIDAY
   SATURDAY
   SUNDAY
-}
-
-model User {
-  id        String  @id @default(uuid()) @db.Uuid
-  email     String  @unique @db.Citext // limit to 255 chars in migration
-  password  String  @db.VarChar(255)
-
-  phoneNumber String @unique @db.VarChar(20)
-  firstName String @db.VarChar(64)
-  lastName String @db.VarChar(64)
-
-  role      UserRole[] @default([USER])
-  profiles Profile[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Profile {
-  id String @id @default(uuid()) @db.Uuid
-
-  email String? @db.VarChar(255)
-  phoneNumber String? @db.VarChar(20)
-  firstName String @db.VarChar(64)
-  lastName String @db.VarChar(64)
-
-  userId String @db.Uuid
-  user User @relation(fields: [userId], references: [id])
-  availabilitySlots AvailabilitySlot[]
-
-  teacher Teacher?
-  student Student?
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Student {
-  id String @id @default(uuid()) @db.Uuid
-
-  profileId String @db.Uuid @unique
-  profile Profile @relation(fields: [profileId], references: [id])
-
-  // @TODO only student settings
-  teachers Teacher[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Teacher {
-  id String @id @default(uuid()) @db.Uuid
-
-  profileId String @db.Uuid @unique
-  profile Profile @relation(fields: [profileId], references: [id])
-
-  // @TODO only teacher settings
-
-  students Student[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model AvailabilitySlot {
-  id String @id @default(uuid()) @db.Uuid
-
-  profileId String @db.Uuid
-  profile Profile @relation(fields: [profileId], references: [id])
-
-  dayOfWeek DayOfWeek
-  startTime Int // Minutes from day start. ex. 14:05 -> 14 * 60 + 5 = 845
-  duration Int // Minutes
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@unique([profileId, dayOfWeek, startTime])
 }

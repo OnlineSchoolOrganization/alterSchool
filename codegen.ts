@@ -3,7 +3,7 @@ import { defineConfig } from '@eddeee888/gcg-typescript-resolver-files'
 
 const config: CodegenConfig = {
   schema: 'packages/server/src/schema/**/schema.graphql',
-  documents: ['packages/client/src/graphql/**/*.graphql'],
+  documents: ['packages/client/src/graphql/**/*.graphql', 'packages/client/src/**/*.vue'],
   generates: {
     'packages/server/src/schema': defineConfig({
       emitLegacyCommonJSImports: false,
@@ -18,7 +18,7 @@ const config: CodegenConfig = {
         enumsAsConst: true,
       },
       presetConfig: {
-        fragmentMasking: false,
+        fragmentMasking: true,
       },
     },
   },

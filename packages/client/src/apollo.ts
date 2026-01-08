@@ -17,7 +17,7 @@ export const link = createHttpLink({
 })
 
 export const apolloClient = new ApolloClient({
-  dataMasking: true,
   link: authLink.concat(link),
   cache: new InMemoryCache(),
+  connectToDevTools: true,
 })

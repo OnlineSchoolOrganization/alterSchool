@@ -47,6 +47,7 @@ type Profile {
   availabilitySlots: [AvailabilitySlot!]
 
   roleProfile: RoleProfile
+  deleted: Boolean!
 
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -97,6 +98,10 @@ type AvailabilitySlot {
 extend type Query {
   user: User!
   teachers: [Teacher!]!
+  users(filter: String, skip: Int!, take: Int!): [User!]!
+  usersCount(filter: String): Int!
+  userById(id: ID!): User
+  me(userId: ID): User!
 }
 
 input IAvailabilitySlot {
@@ -116,4 +121,6 @@ extend type Mutation {
     availabilitySlots: [IAvailabilitySlot!]!
     type: UserRole!
   ): Profile!
+  teacherAdd(userId: ID!): Profile!
+  teacherRemove(userId: ID!): Profile!
 }

@@ -60,6 +60,7 @@ export const profileCreate: NonNullable<MutationResolvers['profileCreate']> = as
     throw e
   }
   const { email, firstName, lastName, phoneNumber, availabilitySlots, type } = _arg
+  /* Comment this section for now
   if (type == 'TEACHER') {
     const profile = await prisma.profile.create({
       data: {
@@ -88,6 +89,7 @@ export const profileCreate: NonNullable<MutationResolvers['profileCreate']> = as
     })
     return profile
   }
+  */
   const profile = await prisma.profile.create({
     data: {
       userId: _ctx.user.id,
