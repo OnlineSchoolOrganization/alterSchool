@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { graphql, useFragment, type FragmentType } from '@/api'
+import { gql } from '@apollo/client'
 import { useMutation } from '@vue/apollo-composable'
 import { computed } from 'vue'
 
@@ -40,21 +41,39 @@ const ProfileFragment = graphql(`
   }
 `)
 
-const TeacherAddDoc = graphql(`
+const TeacherAddDoc = gql`
   mutation TeacherAdd($userId: ID!) {
     teacherAdd(userId: $userId) {
-      ...ProfileFragment
+      id
+      deleted
+      roleProfile {
+        ... on Teacher {
+          id
+        }
+        ... on Student {
+          id
+        }
+      }
     }
   }
-`)
+`
 
-const TeacherRemoveDoc = graphql(`
+const TeacherRemoveDoc = gql`
   mutation TeacherRemove($userId: ID!) {
     teacherRemove(userId: $userId) {
-      ...ProfileFragment
+      id
+      deleted
+      roleProfile {
+        ... on Teacher {
+          id
+        }
+        ... on Student {
+          id
+        }
+      }
     }
   }
-`)
+`
 
 const props = defineProps<{
   user: FragmentType<typeof UserRow>

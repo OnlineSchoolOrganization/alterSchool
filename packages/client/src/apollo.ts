@@ -12,7 +12,7 @@ const authLink = setContext((_, { headers }) => {
 })
 
 export const link = createHttpLink({
-  uri: '/graphql',
+  uri: (import.meta.env.VITE_API_URL ?? '') + '/graphql',
   credentials: 'include',
 })
 
