@@ -9,7 +9,8 @@ This document tracks the development progress of new features. The status is mar
 
 ### **Phase 1: Foundation - Authentication and Profile Creation**
 
-- [4] **1.1. Authentication System (Registration and Login):** Verification and documentation of the existing system.
+- [7] **1.1. Authentication System (Registration and Login):** Verification and documentation of the existing system.
+- [ ] **1.1.1. Implement better security for the Auth System**
 - [>] **1.2. Student Profile Creation:** Full-stack implementation (client & server). (Currently not functional)
 - [ ] **1.3. Teacher Profile Creation (Admin Only):** Full-stack implementation, with role-based protection.
 

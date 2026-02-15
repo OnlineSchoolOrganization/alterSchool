@@ -34,7 +34,7 @@ function formatTime(minutes: number) {
 </script>
 
 <template>
-  <div class="w-full bg-[#0a0a0b] p-4 md:p-8 rounded-xl border border-white/[0.05]">
+  <div class="w-full md:p-8 rounded-xl border p-10 bg-[#111113] border-zinc-800 rounded-xl">
     <div class="overflow-x-auto pb-4 custom-scrollbar">
       <div class="grid grid-cols-7 gap-3 min-w-[900px]">
         
