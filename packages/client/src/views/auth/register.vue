@@ -2,11 +2,13 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { RegisterDocument } from '@/api/graphql.ts'
+import { ProfileCreateDocument } from '@/api/graphql.ts'
 import TimeSlots from '@/components/availability/TimeSlots.vue'
+import { UserRole, DayOfWeek } from '@/api/graphql.ts'
 import { gql } from '@apollo/client'
 
 type AvailabilitySlot = {
-  dayOfWeek: string
+  dayOfWeek: DayOfWeek
   startTime: number
   duration: number
 }
@@ -24,33 +26,11 @@ const credentials = ref({
 
 const errorMessage = ref('')
 
-const PROFILE_CREATE = gql`
-  mutation ProfileCreate(
-    $email: String
-    $phoneNumber: String
-    $firstName: String!
-    $lastName: String!
-    $availabilitySlots: [IAvailabilitySlot!]!
-    $type: UserRole!
-  ) {
-    profileCreate(
-      email: $email
-      phoneNumber: $phoneNumber
-      firstName: $firstName
-      lastName: $lastName
-      availabilitySlots: $availabilitySlots
-      type: $type
-    ) {
-      id
-    }
-  }
-`
-
-const { mutate: profileCreateMutate, loading: profileCreateLoading } = useMutation(PROFILE_CREATE)
+const { mutate: profileCreateMutate, loading: profileCreateLoading } = useMutation(ProfileCreateDocument)
 
 const { mutate: registerMutate, loading: registerLoading } = useMutation(RegisterDocument)
 
-function toggleSlot(dayOfWeek: string, startTime: number) {
+function toggleSlot(dayOfWeek: DayOfWeek, startTime: number) {
   const key = `${dayOfWeek}-${startTime}`
 
   const index = credentials.value.availabilitySlots.findIndex(
@@ -93,7 +73,7 @@ const register = async () => {
         firstName: credentials.value.firstName,
         lastName: credentials.value.lastName,
         availabilitySlots: credentials.value.availabilitySlots,
-        type: 'STUDENT',
+        type: UserRole.User,
       })
     }
   } catch (err: any) {

@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import type { DayOfWeek } from '@/api/graphql'
 import TimeSlot from './TimeSlot.vue'
 
 type AvailabilitySlot = {
-  dayOfWeek: string
+  dayOfWeek: DayOfWeek
   startTime: number
   duration: number
 }
@@ -13,14 +14,14 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  (e: 'toggle', dayOfWeek: string, startTime: number): void
+  (e: 'toggle', dayOfWeek: DayOfWeek, startTime: number): void
 }>()
 
 const start = 900 // 15:00
 const hours = 6
 const duration = 60 
 const days: string[] = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică']
-const daysOfWeek = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
+const daysOfWeek: DayOfWeek[] = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 
 function isSelected(dayOfWeek: string, startTime: number) {
   return props.availabilitySlots?.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime)
