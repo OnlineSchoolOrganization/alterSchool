@@ -1,6 +1,7 @@
 # Development Plan: AlterSchool Platform
 
 This document tracks the development progress of new features. The status is marked as follows:
+
 - `[ ]` - Pending
 - `[>]` - In Progress
 - `[1-10]` - Completed (grade indicates quality)
@@ -11,7 +12,7 @@ This document tracks the development progress of new features. The status is mar
 
 - [7] **1.1. Authentication System (Registration and Login):** Verification and documentation of the existing system.
 - [ ] **1.1.1. Implement better security for the Auth System**
-- [>] **1.2. Student Profile Creation:** Full-stack implementation (client & server). (Currently not functional)
+- [3] **1.2. Student Profile Creation:** Full-stack implementation (client & server). (Functional, but needs refactoring)
 - [ ] **1.3. Teacher Profile Creation (Admin Only):** Full-stack implementation, with role-based protection.
 
 ### **Phase 2: Teacher Experience**

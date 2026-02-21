@@ -3,13 +3,9 @@ import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { RegisterDocument, ProfileCreateDocument, UserRole, DayOfWeek } from '@/api/graphql.ts'
 import AuthLayout from './layout.vue'
-import TimeSlots from '@/components/availability/TimeSlots.vue'
+import { useRouter } from 'vue-router'
 
-type AvailabilitySlot = {
-  dayOfWeek: DayOfWeek
-  startTime: number
-  duration: number
-}
+const router = useRouter()
 
 const credentials = ref({
   email: '',
@@ -19,7 +15,6 @@ const credentials = ref({
   firstName: '',
   lastName: '',
   type: 'Parent',
-  availabilitySlots: [] as AvailabilitySlot[],
 })
 
 const errorMessage = ref('')
@@ -27,26 +22,12 @@ const errorMessage = ref('')
 const { mutate: profileCreateMutate, loading: profileCreateLoading } = useMutation(ProfileCreateDocument)
 const { mutate: registerMutate, loading: registerLoading } = useMutation(RegisterDocument)
 
-function toggleSlot(dayOfWeek: DayOfWeek, startTime: number) {
-  const index = credentials.value.availabilitySlots.findIndex(
-    s => s.dayOfWeek === dayOfWeek && s.startTime === startTime,
-  )
-
-  if (index === -1) {
-    credentials.value.availabilitySlots.push({
-      dayOfWeek,
-      startTime,
-      duration: 60,
-    })
-  } else {
-    credentials.value.availabilitySlots.splice(index, 1)
-  }
-}
 
 const register = async () => {
   try {
     if (credentials.value.confirm !== credentials.value.password) {
-      throw new Error('Confirmarea parolei greșită.')
+        errorMessage.value = 'Confirmarea parolei greșită.'
+        return
     }
     const res = await registerMutate({
       email: credentials.value.email,
@@ -62,16 +43,20 @@ const register = async () => {
     localStorage.setItem('token', token)
 
     if (credentials.value.type === 'Student') {
-      await profileCreateMutate({
+      const res = await profileCreateMutate({
         email: credentials.value.email,
         phoneNumber: credentials.value.phoneNumber,
         firstName: credentials.value.firstName,
         lastName: credentials.value.lastName,
-        availabilitySlots: credentials.value.availabilitySlots,
+        availabilitySlots: [],
         type: UserRole.User,
       })
+      localStorage.setItem('profileId', res?.data?.profileCreate.id as string)
+      router.push('/acount/create?step=2')
+      return
+    } else {
+      router.push('/acount')
     }
-    window.location.href = '/account'
   } catch (err: any) {
     errorMessage.value = err.message ?? 'Registration error'
   }
@@ -87,12 +72,22 @@ const register = async () => {
 
       <form @submit.prevent="register" class="space-y-10">
         <div class="flex bg-[#111113] p-1 rounded-lg border border-zinc-800/60 w-fit">
-          <button type="button" @click="credentials.type = 'Parent'"
+          <button
+            type="button"
+            @click="credentials.type = 'Parent'"
             :class="credentials.type === 'Parent' ? 'bg-[#c5a47e] text-[#0a0a0b]' : 'text-zinc-500'"
-            class="px-6 py-2 rounded-md text-[10px] font-black uppercase tracking-widest transition-all">Părinte</button>
-          <button type="button" @click="credentials.type = 'Student'"
+            class="px-6 py-2 rounded-md text-[10px] font-black uppercase tracking-widest transition-all"
+          >
+            Părinte
+          </button>
+          <button
+            type="button"
+            @click="credentials.type = 'Student'"
             :class="credentials.type === 'Student' ? 'bg-[#c5a47e] text-[#0a0a0b]' : 'text-zinc-500'"
-            class="px-6 py-2 rounded-md text-[10px] font-black uppercase tracking-widest transition-all">Elev</button>
+            class="px-6 py-2 rounded-md text-[10px] font-black uppercase tracking-widest transition-all"
+          >
+            Elev
+          </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -122,24 +117,15 @@ const register = async () => {
           </div>
         </div>
 
-        <div v-if="credentials.type === 'Student'" class="pt-8 border-t border-zinc-800/40 space-y-6">
-          <div>
-            <h3 class="text-lg font-bold text-[#c5a47e] uppercase italic tracking-tighter">Disponibilitate</h3>
-            <p class="text-zinc-500 text-[11px] uppercase tracking-widest">Selectează orele pentru cursuri</p>
-          </div>
-
-            <TimeSlots 
-              :availabilitySlots="credentials.availabilitySlots" 
-              @toggle="toggleSlot" 
-            />
-        </div>
-
         <div class="pt-4 flex flex-col items-center gap-6">
-          <button 
-            type="submit" 
+          <div v-if="errorMessage" class="text-red-500 text-sm">
+            {{ errorMessage }}
+          </div>
+          <button
+            type="submit"
             class="w-full py-4 bg-[#c5a47e] text-[#0a0a0b] font-bold rounded-lg text-xs uppercase tracking-widest hover:bg-[#d6b58f] transition-all"
           >
-            Creează Contul
+          {{ registerLoading || (profileCreateLoading && credentials.type === 'Student') ? 'Se procesează...' : 'Creează Contul' }}
           </button>
           <router-link to="/auth/login" class="text-sm text-zinc-500">
             Ai deja cont? <span class="text-[#c5a47e] font-bold">Conectează-te</span>

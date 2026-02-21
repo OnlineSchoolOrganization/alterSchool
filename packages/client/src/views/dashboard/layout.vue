@@ -8,21 +8,21 @@ const { result, loading } = useQuery(MeDocument)
 const user = computed(() => result.value?.me)
 const { menu } = useMenu(user)
 
-const isMobileMenuOpen = ref(false);
+const isMobileMenuOpen = ref(false)
 </script>
 
 <template>
   <div class="flex h-screen bg-[#0a0a0b] text-zinc-300 font-sans overflow-hidden">
-    <div 
-      v-if="isMobileMenuOpen" 
+    <div
+      v-if="isMobileMenuOpen"
       @click="isMobileMenuOpen = false"
       class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
     ></div>
 
-    <nav 
+    <nav
       :class="[
         'fixed inset-y-0 left-0 z-50 w-64 bg-[#111113] border-r border-zinc-800/50 flex flex-col transition-transform duration-300 lg:relative lg:translate-x-0',
-        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
       ]"
     >
       <div class="p-8 border-b border-zinc-800/40 flex items-center justify-between">
@@ -31,7 +31,9 @@ const isMobileMenuOpen = ref(false);
           <span class="text-xs uppercase tracking-[0.3em] text-zinc-500 font-light">School Admin</span>
         </div>
         <button @click="isMobileMenuOpen = false" class="lg:hidden text-zinc-500">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" /></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
       </div>
 
@@ -64,7 +66,9 @@ const isMobileMenuOpen = ref(false);
 
       <div v-if="user" class="p-4 border-t border-zinc-800/60 bg-black/20">
         <div class="flex items-center gap-3 px-2">
-          <div class="w-8 h-8 rounded border border-[#c5a47e]/30 flex items-center justify-center text-[10px] font-bold text-[#c5a47e]">
+          <div
+            class="w-8 h-8 rounded border border-[#c5a47e]/30 flex items-center justify-center text-[10px] font-bold text-[#c5a47e]"
+          >
             {{ user.email?.charAt(0).toUpperCase() }}
           </div>
           <div class="min-w-0">
@@ -79,7 +83,9 @@ const isMobileMenuOpen = ref(false);
       <header class="lg:hidden flex items-center justify-between p-4 bg-[#111113] border-b border-zinc-800/50">
         <span class="text-[#c5a47e] font-serif italic font-bold">Alter</span>
         <button @click="isMobileMenuOpen = true" class="p-2 text-zinc-400">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
         </button>
       </header>
 

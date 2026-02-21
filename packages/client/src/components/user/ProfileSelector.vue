@@ -51,10 +51,17 @@ const filteredProfiles = computed(() => {
           Profile Asociate
         </h2>
 
-        <label class="relative inline-flex items-center cursor-pointer group bg-[#111113] p-1.5 pr-5 rounded-lg border border-zinc-800 hover:border-zinc-700 transition-all">
+        <label
+          class="relative inline-flex items-center cursor-pointer group bg-[#111113] p-1.5 pr-5 rounded-lg border border-zinc-800 hover:border-zinc-700 transition-all"
+        >
           <input type="checkbox" v-model="showDeleted" class="sr-only peer" />
-          <div class="w-9 h-5 bg-zinc-800 rounded-md peer peer-checked:bg-[#c5a47e]/20 after:content-[''] after:absolute after:top-[9px] after:left-[9px] after:bg-zinc-600 after:rounded-sm after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-full peer-checked:after:bg-[#c5a47e] shadow-inner"></div>
-          <span class="ml-3 text-[10px] font-bold text-zinc-500 group-hover:text-zinc-300 transition-colors uppercase tracking-[0.2em]">Include Arhiva</span>
+          <div
+            class="w-9 h-5 bg-zinc-800 rounded-md peer peer-checked:bg-[#c5a47e]/20 after:content-[''] after:absolute after:top-[9px] after:left-[9px] after:bg-zinc-600 after:rounded-sm after:h-3 after:w-3 after:transition-all peer-checked:after:translate-x-full peer-checked:after:bg-[#c5a47e] shadow-inner"
+          ></div>
+          <span
+            class="ml-3 text-[10px] font-bold text-zinc-500 group-hover:text-zinc-300 transition-colors uppercase tracking-[0.2em]"
+            >Include Arhiva</span
+          >
         </label>
       </div>
 
@@ -90,9 +97,16 @@ const filteredProfiles = computed(() => {
           <ProfileDetails :profile="selectedProfile" />
         </div>
         <div v-else class="p-40 text-center flex flex-col items-center justify-center gap-6">
-          <div class="w-16 h-16 rounded-xl bg-[#111113] border border-zinc-800 flex items-center justify-center text-zinc-700">
+          <div
+            class="w-16 h-16 rounded-xl bg-[#111113] border border-zinc-800 flex items-center justify-center text-zinc-700"
+          >
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1.5"
+                d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"
+              />
             </svg>
           </div>
           <p class="text-zinc-500 font-bold uppercase tracking-[0.3em] text-[10px]">Așteptare selecție profil</p>

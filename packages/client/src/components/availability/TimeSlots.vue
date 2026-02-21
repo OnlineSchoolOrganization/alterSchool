@@ -19,7 +19,7 @@ const emit = defineEmits<{
 
 const start = 900 // 15:00
 const hours = 6
-const duration = 60 
+const duration = 60
 const days: string[] = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică']
 const daysOfWeek: DayOfWeek[] = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
 
@@ -28,22 +28,16 @@ function isSelected(dayOfWeek: string, startTime: number) {
 }
 
 function formatTime(minutes: number) {
-  const h = Math.floor(minutes / 60);
-  return `${h}:00`;
+  const h = Math.floor(minutes / 60)
+  return `${h}:00`
 }
 </script>
 
 <template>
-  <div class="w-full md:p-8 rounded-xl border p-10 bg-[#111113] border-zinc-800 rounded-xl">
+  <div class="w-full p-2 sm:p-4 md:p-8 bg-[#111113] border border-zinc-800 rounded-xl">
     <div class="overflow-x-auto pb-4 custom-scrollbar">
       <div class="grid grid-cols-7 gap-3 min-w-[900px]">
-        
-        <TimeSlot 
-          v-for="day in days" 
-          :key="day" 
-          :text="day" 
-          type="primary" 
-        />
+        <TimeSlot v-for="day in days" :key="day" :text="day" type="primary" />
 
         <template v-for="i in hours" :key="`row-${i}`">
           <TimeSlot
