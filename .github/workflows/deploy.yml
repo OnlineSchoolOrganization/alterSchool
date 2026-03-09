@@ -59,7 +59,7 @@ jobs:
           BASE_PATH: /alterSchool/
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      - name: Fix SPA routing
+      - name: fix SPA routing
         run: cp packages/client/dist/index.html packages/client/dist/404.html
 
       - name: Setup GitHub Pages
