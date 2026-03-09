@@ -40,7 +40,7 @@ function isSelected(dayOfWeek: string, startTime: number) {
   return props.availabilitySlots?.some(slot => slot.dayOfWeek === dayOfWeek && slot.startTime === startTime)
 }
 
-const openDay = ref<string|null>("MONDAY")
+const openDay = ref<string|null>(null)
 const isXL = ref(false)
 
 function updateScreen() {

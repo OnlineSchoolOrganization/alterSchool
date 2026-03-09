@@ -6,6 +6,7 @@ import { LoginDocument } from '@/api/graphql.ts'
 import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
 import ErrorMessage from '@/components/ui/ErrorMessage.vue'
+import { useRouter } from 'vue-router'
 // import AuthLayout from "./layout.vue"
 
 const credentials = ref({
@@ -13,6 +14,8 @@ const credentials = ref({
   password: '',
 })
 const error = ref(null)
+
+const router = useRouter()
 
 const { mutate: loginMutate, loading } = useMutation(LoginDocument)
 
@@ -27,7 +30,7 @@ const login = async () => {
     if (!token) throw new Error('Login failed')
 
     localStorage.setItem('token', token)
-    window.location.href = '/account'
+    router.push('/acount')
   } catch (err: any) {
     error.value = err.message ?? 'Login error'
   }

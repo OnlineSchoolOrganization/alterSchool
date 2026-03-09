@@ -90,6 +90,7 @@ const createProfile = async () => {
         type: UserRole.User,
     })
     localStorage.setItem('profileId', res?.data?.profileCreate.id as string)
+    router.push('/acount')
   } catch (err: any) {
     error.value = err.message ?? 'Registration error'
   }
