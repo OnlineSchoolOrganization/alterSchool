@@ -231,7 +231,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import TimeSlots from '@/components/availability/TimeSlots.vue'
+import TimeSlots from '@/components/ui/availability/TimeSlots.vue'
+import type { DayOfWeek } from '@/api/graphql'
 
 const showUserAvailability = ref(false)
 
@@ -239,8 +240,8 @@ const userData = ref({
   targetClass: 'Clasa a 12-a',
   targetCurriculum: 'Mate-Info BAC',
   availabilitySlots: [
-    { dayOfWeek: 'MONDAY', startTime: 900, duration: 60 },
-    { dayOfWeek: 'THURSDAY', startTime: 1020, duration: 60 },
+    { dayOfWeek: 'MONDAY' as DayOfWeek, startTime: 900, duration: 60 },
+    { dayOfWeek: 'THURSDAY' as DayOfWeek, startTime: 1020, duration: 60 },
   ],
 })
 

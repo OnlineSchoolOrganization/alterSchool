@@ -11,7 +11,7 @@ const yoga = createYoga({
     const token = req.request.headers.get('authorization')?.split(' ')[1]
     let user = null
     if (token) {
-      const userJWT = await decryptJWT(token)
+      const userJWT =  decryptJWT(token)
       if (userJWT) user = await prisma.user.findUnique({ where: { id: userJWT.id } })
     }
     return { user, encryptJWT, decryptJWT, prisma }

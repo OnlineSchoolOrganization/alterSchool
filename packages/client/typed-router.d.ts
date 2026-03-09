@@ -121,6 +121,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/profile/create': RouteRecordInfo<
+      '/profile/create',
+      '/profile/create',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/teacher/': RouteRecordInfo<
       '/teacher/',
       '/teacher',
@@ -131,6 +138,13 @@ declare module 'vue-router/auto-routes' {
     '/teacher/list': RouteRecordInfo<
       '/teacher/list',
       '/teacher/list',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/uitest': RouteRecordInfo<
+      '/uitest',
+      '/uitest',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -232,6 +246,12 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
+    'src/views/profile/create.vue': {
+      routes:
+        | '/profile/create'
+      views:
+        | never
+    }
     'src/views/teacher/index.vue': {
       routes:
         | '/teacher/'
@@ -241,6 +261,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/teacher/list.vue': {
       routes:
         | '/teacher/list'
+      views:
+        | never
+    }
+    'src/views/uitest.vue': {
+      routes:
+        | '/uitest'
       views:
         | never
     }

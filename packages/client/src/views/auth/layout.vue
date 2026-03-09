@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col lg:flex-row min-h-screen bg-[#0a0a0b] text-zinc-100 font-sans">
+  <div class="flex flex-col lg:flex-row min-h-screen text-zinc-100 font-sans">
     <aside
       class="hidden 2xl:flex lg:w-1/3 h-screen sticky top-0 bg-[#111113] border-r border-zinc-800/50 p-12 flex-col justify-between"
     >
@@ -13,7 +13,7 @@
           Sistem integrat de <br />
           <span class="text-[#c5a47e] italic font-serif">management școlar.</span>
         </h1>
-        <div class="h-[1px] w-10 bg-zinc-800"></div>
+        <div class="h-px w-10 bg-zinc-800"></div>
         <p class="text-zinc-500 text-sm leading-relaxed max-w-xs">
           O interfață rafinată pentru performanță academică ridicată.
         </p>

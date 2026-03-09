@@ -1,6 +1,14 @@
 @import './base.css';
 @import 'tailwindcss';
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #app {
-  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+@theme {
+  --color-muted-foreground: oklch(0.708 0 0);
 }

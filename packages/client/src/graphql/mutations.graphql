@@ -2,23 +2,21 @@ mutation login($email: String!, $password: String!) {
   userSignIn(email: $email, password: $password)
 }
 
-mutation register($email: String!, $password: String!, $phoneNumber: String!, $firstName: String!, $lastName: String!) {
-  userSignUp(email: $email, password: $password, phoneNumber: $phoneNumber, firstName: $firstName, lastName: $lastName)
+mutation register($email: String!, $password: String!, $phoneNumber: String!, $username: String!) {
+  userSignUp(email: $email, password: $password, phoneNumber: $phoneNumber, username: $username)
 }
 
 mutation ProfileCreate(
   $email: String
   $phoneNumber: String
-  $firstName: String!
-  $lastName: String!
+  $username: String!
   $availabilitySlots: [IAvailabilitySlot!]!
   $type: UserRole!
 ) {
   profileCreate(
     email: $email
     phoneNumber: $phoneNumber
-    firstName: $firstName
-    lastName: $lastName
+    username: $username
     availabilitySlots: $availabilitySlots
     type: $type
   ) {

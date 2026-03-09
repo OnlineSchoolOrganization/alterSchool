@@ -2,13 +2,17 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { LoginDocument } from '@/api/graphql.ts'
-import AuthLayout from './layout.vue'
+
+import Input from '@/components/ui/Input.vue'
+import Button from '@/components/ui/Button.vue'
+import ErrorMessage from '@/components/ui/ErrorMessage.vue'
+// import AuthLayout from "./layout.vue"
 
 const credentials = ref({
   email: '',
   password: '',
 })
-const errorMessage = ref('')
+const error = ref(null)
 
 const { mutate: loginMutate, loading } = useMutation(LoginDocument)
 
@@ -25,60 +29,48 @@ const login = async () => {
     localStorage.setItem('token', token)
     window.location.href = '/account'
   } catch (err: any) {
-    errorMessage.value = err.message ?? 'Login error'
+    error.value = err.message ?? 'Login error'
   }
 }
 </script>
 <template>
-  <AuthLayout>
-    <div
-      class="max-w-md w-full bg-[#111113] border border-zinc-800/60 rounded-2xl p-8 md:p-10 flex flex-col gap-8 shadow-2xl"
-    >
-      <div class="flex flex-col gap-2 text-center lg:text-left">
-        <h2 class="text-2xl font-bold text-zinc-100 uppercase tracking-tighter italic">Autentificare</h2>
-        <p class="text-zinc-500 text-sm">Introdu acreditările pentru acces.</p>
+  <!-- <AuthLayout> -->
+  <div class="flex justify-center items-center w-full h-dvh">
+    <div class="w-md min-w-xs m-3 flex flex-col bg-[color-mix(in_oklab,var(--color-slate-900)_50%,transparent)] p-10 border-slate-800 border rounded-lg gap-10">
+      <div class="text-center">
+        <h1 class="text-2xl font-medium text-zing-100">Bine ai revenit</h1>
+        <p class="text-slate-400">Conecteaza-te pentru a-ți satisface curiozitatea</p>
       </div>
-
-      <form @submit.prevent="login" class="flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
-          <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Email</label>
-          <input
-            v-model="credentials.email"
-            type="email"
-            placeholder="nume@exemplu.ro"
-            class="w-full bg-[#0a0a0b] border border-zinc-800 rounded-xl px-4 py-3.5 text-sm text-zinc-100 focus:outline-none focus:border-[#c5a47e] transition-all"
-          />
-        </div>
-
-        <div class="flex flex-col gap-2">
-          <div class="flex justify-between items-center px-1">
-            <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Parolă</label>
-            <a href="#" class="text-[10px] text-[#c5a47e] uppercase font-bold hover:underline">Ai uitat?</a>
-          </div>
-          <input
-            v-model="credentials.password"
-            type="password"
-            placeholder="••••••••"
-            class="w-full bg-[#0a0a0b] border border-zinc-800 rounded-xl px-4 py-3.5 text-sm text-zinc-100 focus:outline-none focus:border-[#c5a47e] transition-all"
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="w-full py-4 bg-[#c5a47e] text-[#0a0a0b] font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-[#d6b58f] transition-all shadow-lg shadow-[#c5a47e]/10 mt-2"
-        >
-          {{ loading ? 'Se procesează...' : 'Intră în cont' }}
-        </button>
-
-        <div class="flex justify-center pt-4 border-t border-zinc-800/40">
-          <p class="text-sm text-zinc-500">
-            Nu ai cont?
-            <router-link to="/auth/register" class="text-[#c5a47e] font-bold hover:underline ml-1">
-              Înregistrează-te
-            </router-link>
-          </p>
+      <form @submit.prevent="login" class="flex flex-col gap-5">
+        <Input
+          v-model="credentials.email"
+          id="email"
+          type="email"
+          label="Email"
+          placeholder="Scrie email-ul tău"
+          name="email"
+          autocomplete="email"
+          required
+        />
+        <Input
+          v-model="credentials.password"
+          id="password"
+          type="password"
+          label="Password"
+          placeholder="Scrie parola ta"
+          name="password"
+          autocomplate="current-password"
+          required
+        />
+        <ErrorMessage v-if="error">{{ error }}</ErrorMessage>
+        <Button type="submit" :variant="loading ? 'block' : 'primary'">
+          {{ loading ? "Loading..." : "Login" }}
+        </Button>
+        <div class="pt-4 text-center">
+          Nu ai cont? <router-link to="register" class="text-emerald-400 font-bold">Înregistrează-te</router-link>
         </div>
       </form>
     </div>
-  </AuthLayout>
+  </div>
+  <!-- </AuthLayout> -->
 </template>

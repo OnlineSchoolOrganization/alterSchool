@@ -6,6 +6,7 @@ import VueRouter from 'unplugin-vue-router/vite'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig(({ mode }) => ({
+  base: process.env.BASE_PATH || '/',
   plugins: [
     VueRouter({
       routesFolder: 'src/views',

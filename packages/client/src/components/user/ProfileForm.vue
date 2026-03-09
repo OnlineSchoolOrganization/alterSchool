@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { ProfileCreateDocument, UserRole, DayOfWeek } from '@/api/graphql.ts'
-import TimeSlots from '@/components/availability/TimeSlots.vue'
+import TimeSlots from '@/components/ui/availability/TimeSlots.vue'
 
 const props = defineProps<{
   // Permitem injectarea email-ului dacă există deja (ex: la register)
@@ -37,8 +37,7 @@ const submitProfile = async (overrideEmail?: string) => {
   try {
     const result = await mutate({
       email: overrideEmail || form.value.email,
-      firstName: form.value.firstName,
-      lastName: form.value.lastName,
+      username: form.value.firstName,
       phoneNumber: form.value.phoneNumber,
       availabilitySlots: form.value.availabilitySlots,
       type: props.role === 'Student' ? UserRole.User : UserRole.User,

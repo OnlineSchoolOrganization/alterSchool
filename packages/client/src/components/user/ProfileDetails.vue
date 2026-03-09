@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { graphql, useFragment, type FragmentType } from '@/api'
-import TimeSlots from '@/components/availability/TimeSlots.vue'
+import TimeSlots from '@/components/ui/availability/TimeSlots.vue'
 import { computed } from 'vue'
 
 const PROFILE_DETAILS_FRAGMENT = graphql(`

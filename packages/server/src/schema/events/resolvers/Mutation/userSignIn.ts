@@ -36,11 +36,11 @@ export const userSignIn: NonNullable<MutationResolvers['userSignIn']> = async (_
 
   const user = await prisma.user.findUnique({ where: { email } })
   if (!user) {
-    throw new Error('Email-ul sau parola sunt incorecte')
+    throw new GraphQLError('Email-ul sau parola sunt incorecte')
   }
 
   if ((await bcrypt.compare(password, user.password)) === false) {
-    throw new Error('Email-ul sau parola sunt incorecte')
+    throw new GraphQLError('Email-ul sau parola sunt incorecte')
   }
   const token = _ctx.encryptJWT(user)
   return token

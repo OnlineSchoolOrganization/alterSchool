@@ -26,13 +26,11 @@ const validate = z.object({
     .regex(/^[0-9+ ]+$/, { message: 'Numărul de telefon conține caractere invalide' })
     .optional(),
 
-  firstName: z
+  username: z
     .string({ message: 'Numele este obligatoriu' })
+    .min(2, { message: "Numele trebuie sa aiba mai mult de 2 caractere" })
     .max(64, { message: 'Numele trebuie să aibă maximum 64 caractere' }),
 
-  lastName: z
-    .string({ message: 'Numele de familie este obligatoriu' })
-    .max(64, { message: 'Numele de familie trebuie să aibă maximum 64 caractere' }),
   availabilitySlots: z.array(availabilitySlotSchema),
 })
 
@@ -59,7 +57,7 @@ export const profileCreate: NonNullable<MutationResolvers['profileCreate']> = as
     }
     throw e
   }
-  const { email, firstName, lastName, phoneNumber, availabilitySlots, type } = _arg
+  const { email, username, phoneNumber, availabilitySlots, type } = _arg
   /* Comment this section for now
   if (type == 'TEACHER') {
     const profile = await prisma.profile.create({
@@ -94,8 +92,7 @@ export const profileCreate: NonNullable<MutationResolvers['profileCreate']> = as
     data: {
       userId: _ctx.user.id,
       email,
-      firstName,
-      lastName,
+      username,
       phoneNumber,
       availabilitySlots: {
         create: availabilitySlots.map(slot => ({

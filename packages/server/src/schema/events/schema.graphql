@@ -25,8 +25,9 @@ type User {
   email: String!
 
   phoneNumber: String!
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
+  username: String!
 
   role: [UserRole!]
   profiles: [Profile!]
@@ -40,8 +41,9 @@ type Profile {
 
   email: String
   phoneNumber: String
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
+  username: String!
   userId: ID!
   user: User
   availabilitySlots: [AvailabilitySlot!]
@@ -112,12 +114,11 @@ input IAvailabilitySlot {
 
 extend type Mutation {
   userSignIn(email: String!, password: String!): String!
-  userSignUp(email: String!, password: String!, phoneNumber: String!, firstName: String!, lastName: String!): String!
+  userSignUp(email: String!, phoneNumber: String!, password: String!, username: String!): String!
   profileCreate(
     email: String
     phoneNumber: String
-    firstName: String!
-    lastName: String!
+    username: String!
     availabilitySlots: [IAvailabilitySlot!]!
     type: UserRole!
   ): Profile!

@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router'
 import AuthLayout from '../auth/layout.vue'
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { DayOfWeek, ProfileCreateDocument, UserRole } from '@/api/graphql'
-import TimeSlots from '@/components/availability/TimeSlots.vue'
+import TimeSlots from '@/components/ui/availability/TimeSlots.vue'
 import { gql } from '@apollo/client'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
 
@@ -21,10 +20,9 @@ type AvailabilitySlot = {
 }
 
 const credentials = ref({
-  email: '',
-  phoneNumber: '',
-  firstName: '',
-  lastName: '',
+  email: null,
+  phoneNumber: null, 
+  username: '',
   availabilitySlots: [] as AvailabilitySlot[],
 })
 
@@ -61,8 +59,7 @@ const step1 = async () => {
     const res = await profileCreateMutate({
         email: credentials.value.email,
         phoneNumber: credentials.value.phoneNumber,
-        firstName: credentials.value.firstName,
-        lastName: credentials.value.lastName,
+        username: credentials.value.username,
         availabilitySlots: [],
         type: UserRole.User,
     })
@@ -99,11 +96,7 @@ const step2 = async () => {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div class="space-y-2">
             <label class="text-[10px] font-bold text-zinc-500 uppercase ml-1">Prenume</label>
-            <input v-model="credentials.firstName" type="text" placeholder="Andrei" class="auth-box-input" />
-          </div>
-          <div class="space-y-2">
-            <label class="text-[10px] font-bold text-zinc-500 uppercase ml-1">Nume</label>
-            <input v-model="credentials.lastName" type="text" placeholder="Popescu" class="auth-box-input" />
+            <input v-model="credentials.username" type="text" placeholder="Andrei" class="auth-box-input" />
           </div>
           <div class="space-y-2 md:col-span-2">
             <label class="text-[10px] font-bold text-zinc-500 uppercase ml-1">Email</label>

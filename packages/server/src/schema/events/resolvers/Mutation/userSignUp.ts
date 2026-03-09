@@ -10,23 +10,19 @@ const validate = z.object({
     .email({ message: 'Email-ul nu este valid' })
     .max(255, { message: 'Email-ul trebuie să aibă maximum 255 caractere' }),
 
-  phoneNumber: z
-    .string({ message: 'Numărul de telefon este obligatoriu' })
-    .max(20, { message: 'Numărul de telefon trebuie să aibă maximum 20 caractere' })
-    .regex(/^[0-9+ ]+$/, { message: 'Numărul de telefon conține caractere invalide' }),
-
   password: z
     .string({ message: 'Parola este obligatorie' })
     .min(6, { message: 'Parola trebuie să aibă minim 6 caractere' })
     .max(255, { message: 'Parola trebuie să aibă maximum 255 caractere' }),
 
-  firstName: z
+  phoneNumber: z
+    .string({ message: 'Numărul de telefon este obligatoriu' })
+    .max(20, { message: 'Numărul de telefon trebuie să aibă maximum 20 caractere' })
+    .regex(/^[0-9+ ]+$/, { message: 'Numărul de telefon conține caractere invalide' }),
+
+  username: z
     .string({ message: 'Numele este obligatoriu' })
     .max(64, { message: 'Numele trebuie să aibă maximum 64 caractere' }),
-
-  lastName: z
-    .string({ message: 'Numele de familie este obligatoriu' })
-    .max(64, { message: 'Numele de familie trebuie să aibă maximum 64 caractere' }),
 })
 
 export const userSignUp: NonNullable<MutationResolvers['userSignUp']> = async (_parent, _arg, _ctx) => {
@@ -45,7 +41,7 @@ export const userSignUp: NonNullable<MutationResolvers['userSignUp']> = async (_
     }
     throw e
   }
-  const { email, firstName, lastName, phoneNumber, password } = _arg
+  const { email, phoneNumber, username, password } = _arg
   const existingUserEmail = await prisma.user.findUnique({ where: { email } })
   if (existingUserEmail) {
     throw new GraphQLError('Email-ul este deja folosit', {
@@ -67,8 +63,7 @@ export const userSignUp: NonNullable<MutationResolvers['userSignUp']> = async (_
   const newUser = await prisma.user.create({
     data: {
       email,
-      firstName,
-      lastName,
+      username,
       phoneNumber,
       password: await bcrypt.hash(password, 10),
     },
