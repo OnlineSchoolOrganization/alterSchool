@@ -13,6 +13,7 @@ import Button from '@/components/ui/Button.vue'
 import ErrorMessage from '@/components/ui/ErrorMessage.vue'
 import TimeSlots from '@/components/ui/availability/TimeSlots.vue'
 import { graphql } from '@/api'
+import { GET_MY_PROFILES } from './query'
 
 const router = useRouter()
 
@@ -88,9 +89,13 @@ const createProfile = async () => {
         username: credentials.value.username,
         availabilitySlots: credentials.value.availabilitySlots,
         type: UserRole.User,
+    }, {
+        refetchQueries: [{
+            query: GET_MY_PROFILES
+        }]
     })
     localStorage.setItem('profileId', res?.data?.profileCreate.id as string)
-    router.push('/acount')
+    router.push('/profile/select')
   } catch (err: any) {
     error.value = err.message ?? 'Registration error'
   }
@@ -124,7 +129,7 @@ function toggleSlot(dayOfWeek: DayOfWeek, startTime: number) {
                 </div>
             </div>
             <div class="w-full bg-slate-800 h-2 rounded-xl">
-                <div :class="`w-[${Math.floor(100/steps.length) * (step + 1)}%] from-emerald-300 bg-linear-to-r to-emerald-600 h-full rounded-xl`"></div>
+                <div :style="`width: ${Math.floor(100/steps.length) * (step + 1)}%`" :class="`w-[${Math.floor(100/steps.length) * (step + 1)}%] from-emerald-300 bg-linear-to-r to-emerald-600 h-full rounded-xl`"></div>
             </div>
             <div v-if="currentStep === 'username'" class="max-w-md flex flex-col gap-3">
                 <div>
@@ -171,7 +176,7 @@ function toggleSlot(dayOfWeek: DayOfWeek, startTime: number) {
                     <h1 class="mb-6 text-2xl font-medium text-zing-100">Timpul liber al studentului</h1>
                     <TimeSlots 
                         :availabilitySlots="credentials.availabilitySlots" 
-                        @toggle="toggleSlot" 
+                        @toggle="toggleSlot"
                         :loading="loading"
                     />
                 </div>
@@ -188,7 +193,7 @@ function toggleSlot(dayOfWeek: DayOfWeek, startTime: number) {
                     <Button @click="prevStep" type="button" variant="secondary" v-if="!isFirstStep" :disabled="isFirstStep">
                         Înapoi
                     </Button>
-                    <router-link class="w-full h-full flex justify-center items-center py-2 px-4 rounded-md text-sm cursor-pointer transition-colors bg-[color-mix(in_oklab,var(--color-slate-800)_50%,transparent)] text-zinc-100 border-2 border-slate-700" v-else to="/profile">
+                    <router-link class="w-full h-full flex justify-center items-center py-2 px-4 rounded-md text-sm cursor-pointer transition-colors bg-[color-mix(in_oklab,var(--color-slate-800)_50%,transparent)] text-zinc-100 border-2 border-slate-700" v-else to="/profile/select">
                         Acasă
                     </router-link>
                 </div>
