@@ -46,7 +46,7 @@ function normalizeOptionalString(value?: string | null) {
 
 export const profileUpdate: NonNullable<MutationResolvers['profileUpdate']> = async (_parent, _arg, _ctx) => {
   if (!_ctx.user) {
-    throw new GraphQLError('Unauthorized', {
+    throw new GraphQLError('Trebuie să fii autentificat', {
       extensions: {
         code: 'UNAUTHORIZED',
       },
@@ -71,11 +71,10 @@ export const profileUpdate: NonNullable<MutationResolvers['profileUpdate']> = as
 
   const profile = await prisma.profile.findUnique({
     where: { id: _arg.profileId },
-    include: { teacher: true },
   })
 
   if (!profile || profile.deleted) {
-    throw new GraphQLError('Profile not found', {
+    throw new GraphQLError('Profilul nu a fost găsit', {
       extensions: {
         code: 'NOT_FOUND',
       },
@@ -84,15 +83,7 @@ export const profileUpdate: NonNullable<MutationResolvers['profileUpdate']> = as
 
   const canEditProfile = profile.userId === _ctx.user.id || _ctx.user.role.includes('SUPER_USER')
   if (!canEditProfile) {
-    throw new GraphQLError('Forbidden', {
-      extensions: {
-        code: 'FORBIDDEN',
-      },
-    })
-  }
-
-  if (!profile.teacher) {
-    throw new GraphQLError('Profile is not a teacher profile', {
+    throw new GraphQLError('Nu ai permisiunea să editezi acest profil', {
       extensions: {
         code: 'FORBIDDEN',
       },

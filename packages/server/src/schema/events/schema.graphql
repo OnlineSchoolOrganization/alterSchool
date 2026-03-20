@@ -132,4 +132,5 @@ extend type Mutation {
   ): Profile!
   teacherAdd(userId: ID!): Profile!
   teacherRemove(userId: ID!): Profile!
+  teacherStudentAdd(teacherId: ID!, studentProfileId: ID!): Teacher!
 }

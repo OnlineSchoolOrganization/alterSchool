@@ -1,23 +1,18 @@
 <script setup lang="ts">
-    import MiniProfile from '@/components/ui/profile/MiniProfile.vue';
-    import AddProfile from '@/components/ui/profile/AddProfile.vue';
-    import { useQuery } from '@vue/apollo-composable';
-    import { computed } from 'vue';
-    import { GET_MY_PROFILES } from './query';
-    const { result, loading } = useQuery(GET_MY_PROFILES)
-    const user = computed(() => result.value?.user)
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+onMounted(() => {
+  router.replace('/student/dashboard')
+})
 </script>
 
 <template>
-    <div class="p-10" v-if="!loading">
-        <div class="mb-10">
-            <h1 class="text-3xl text-center">Selecteaza un profil</h1>
-            <p class="text-lg text-center">Selectează profilul pe care vrei să-l folosești</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch mx-auto max-w-7xl">
-            <MiniProfile v-for="profile in user?.profiles" :key="profile.id" :name="profile.username" :email="profile.email" />
-            <AddProfile />
-        </div>
+  <div class="flex min-h-dvh items-center justify-center px-3">
+    <div class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_55%,transparent)] p-6 text-sm text-slate-300">
+      Se redirecționează către dashboard-ul studentului...
     </div>
-    <div v-else>Loading</div>
+  </div>
 </template>

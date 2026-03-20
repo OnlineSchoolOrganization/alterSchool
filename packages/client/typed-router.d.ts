@@ -121,6 +121,20 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/student/create': RouteRecordInfo<
+      '/student/create',
+      '/student/create',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/student/dashboard/': RouteRecordInfo<
+      '/student/dashboard/',
+      '/student/dashboard',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/teacher/': RouteRecordInfo<
       '/teacher/',
       '/teacher',
@@ -243,6 +257,18 @@ declare module 'vue-router/auto-routes' {
     'src/views/profile/select.vue': {
       routes:
         | '/profile/select'
+      views:
+        | never
+    }
+    'src/views/student/create.vue': {
+      routes:
+        | '/student/create'
+      views:
+        | never
+    }
+    'src/views/student/dashboard/index.vue': {
+      routes:
+        | '/student/dashboard/'
       views:
         | never
     }

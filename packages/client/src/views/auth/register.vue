@@ -50,9 +50,9 @@ const register = async () => {
 
     localStorage.setItem('token', token)
     if(credentials.value.type === "Parent") {
-      router.push('/profile/create?type=parent')
+      router.push('/student/create?type=parent')
     } else {
-      router.push('/profile/create?type=student')
+      router.push('/student/create?type=student')
     }
   } catch (err: any) {
     error.value = err.message ?? 'Registration error'
