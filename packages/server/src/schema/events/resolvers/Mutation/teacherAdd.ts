@@ -20,8 +20,9 @@ export const teacherAdd: NonNullable<MutationResolvers['teacherAdd']> = async (_
       email: user.email || '',
       firstName: user.firstName || '',
       lastName: user.lastName || '',
+      username: user.firstName + " " + user.lastName,
       phoneNumber: user.phoneNumber || '',
-      teacher: { create: {} },
+      teacher: { create: { bio: '' } },
     },
   })
   if (!user.role.includes('TEACHER'))

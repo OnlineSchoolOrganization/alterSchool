@@ -122,7 +122,14 @@ extend type Mutation {
     availabilitySlots: [IAvailabilitySlot!]!
     type: UserRole!
   ): Profile!
-  profileUpdateAvailabilitySlots(profileId: ID!, availabilitySlots: [IAvailabilitySlot!]!): Profile!
+  profileUpdate(
+    profileId: ID!
+    firstName: String
+    lastName: String
+    email: String
+    phoneNumber: String
+    availabilitySlots: [IAvailabilitySlot!]!
+  ): Profile!
   teacherAdd(userId: ID!): Profile!
   teacherRemove(userId: ID!): Profile!
 }
