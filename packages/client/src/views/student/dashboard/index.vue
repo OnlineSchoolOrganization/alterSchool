@@ -217,7 +217,7 @@ async function submit() {
   <div class="flex justify-center w-full px-3 py-8 lg:py-12">
     <div class="w-full max-w-7xl flex flex-col gap-6 pb-24 md:pb-0">
       <section
-      class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_55%,transparent)] p-6 md:p-8 lg:p-10"
+        class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_55%,transparent)] p-6 md:p-8 lg:p-10"
       >
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-3xl space-y-3">
@@ -252,7 +252,9 @@ async function submit() {
 
       <ProfileDashboardMenu v-model="activeSection" :items="sections" />
 
-      <div v-if="loading" class="h-96 text-center rounded-2xl border border-slate-800 bg-slate-900/40 animate-pulse">Loading...</div>
+      <div v-if="loading" class="h-96 text-center rounded-2xl border border-slate-800 bg-slate-900/40 animate-pulse">
+        Loading...
+      </div>
       <ErrorMessage v-else-if="error">{{ error.message }}</ErrorMessage>
 
       <template v-else>

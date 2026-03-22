@@ -7,7 +7,7 @@ import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
 import ErrorMessage from '@/components/ui/ErrorMessage.vue'
 import { useRouter } from 'vue-router'
-import { MeForMenuDocument} from '@/api/graphql.ts'
+import { MeForMenuDocument } from '@/api/graphql.ts'
 // import AuthLayout from "./layout.vue"
 
 const credentials = ref({

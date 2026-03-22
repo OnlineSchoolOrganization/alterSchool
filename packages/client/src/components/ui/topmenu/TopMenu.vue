@@ -6,34 +6,33 @@ import ThemeToggle from './ThemeToggle.vue'
 import { graphql } from '@/api'
 
 // query GraphQL pentru user
-const { result, refetch } = useQuery(graphql(`
-query MeForMenu {
-  me {
-    id
-    role
-    profiles {
-      id
-      username
-      roleProfile {
-        __typename
+const { result, refetch } = useQuery(
+  graphql(`
+    query MeForMenu {
+      me {
+        id
+        role
+        profiles {
+          id
+          username
+          roleProfile {
+            __typename
+          }
+        }
       }
     }
-  }
-}
-  `)
+  `),
 )
 
 const me = computed(() => result.value?.me)
 
 const isSuperUser = computed(() => me.value?.role?.includes('SUPER_USER'))
-const hasTeacherProfile = computed(() =>
-  me.value?.profiles?.some(p => p.roleProfile?.__typename === 'Teacher')
-)
+const hasTeacherProfile = computed(() => me.value?.profiles?.some(p => p.roleProfile?.__typename === 'Teacher'))
 const auth = ref(localStorage.getItem('token'))
 
 function handleAuthChange() {
-    auth.value = localStorage.getItem('token')
-    refetch()
+  auth.value = localStorage.getItem('token')
+  refetch()
 }
 
 onMounted(() => {
@@ -56,15 +55,17 @@ onBeforeUnmount(() => {
       <MenuItem label="Create Student" to="/student/create" :show="!!me" />
     </div>
     <div class="flex items-center gap-2 flex-wrap">
-        <MenuItem v-if="auth" label="Logout" to="/auth/logout" :show="true" />
-        <MenuItem v-else label="Login" to="/auth/login" :show="true" />
-        <ThemeToggle />
+      <MenuItem v-if="auth" label="Logout" to="/auth/logout" :show="true" />
+      <MenuItem v-else label="Login" to="/auth/login" :show="true" />
+      <ThemeToggle />
     </div>
   </nav>
 
   <!-- BOTTOM NAV MOBILE -->
-  <nav class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex md:hidden justify-around py-2 border-t border-slate-800 z-100">
-    <MenuItem label="Admin" to="/dashboard" icon="🏠" :show="!!isSuperUser"/>
+  <nav
+    class="fixed bottom-0 left-0 w-full bg-slate-900 text-white flex md:hidden justify-around py-2 border-t border-slate-800 z-100"
+  >
+    <MenuItem label="Admin" to="/dashboard" icon="🏠" :show="!!isSuperUser" />
     <MenuItem label="Teacher" to="/teacher/list" icon="👨‍🏫" :show="true" />
     <MenuItem label="Student" to="/student/dashboard" icon="🎓" :show="!!me" />
     <MenuItem v-if="auth" label="Logout" icon="➜]" to="/auth/logout" :show="true" />

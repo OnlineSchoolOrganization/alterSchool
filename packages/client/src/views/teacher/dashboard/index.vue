@@ -345,12 +345,26 @@ const removePlan = async (index: number) => {
           <h2 class="text-3xl font-bold">Editare Profil</h2>
 
           <div class="flex gap-4 flex-wrap justify-between">
-            <Input label="Numele" id="profile_firstname" v-model="teacherProfile.profile.firstName" placeholder="Ion" />
             <Input
-              label="Numele de famili"
+              label="Numele"
+              id="profile_firstname"
+              :model-value="teacherProfile.profile?.firstName ?? ''"
+              @update:model-value="
+                val => {
+                  if (teacherProfile?.profile) teacherProfile.profile.firstName = val
+                }
+              "
+            />
+
+            <Input
+              label="Numele de familie"
               id="profile_secondname"
-              v-model="teacherProfile.profile.lastName"
-              placeholder="Popescu"
+              :model-value="teacherProfile.profile?.lastName ?? ''"
+              @update:model-value="
+                val => {
+                  if (teacherProfile?.profile) teacherProfile.profile.lastName = val
+                }
+              "
             />
             <Input label="Username" id="profile_username" v-model="teacherProfile.profile.username" />
           </div>
@@ -382,7 +396,13 @@ const removePlan = async (index: number) => {
               >
                 <Input :id="index + 'plan_label'" placeholder="Titlu" v-model="plan.label" />
                 <Input :id="index + 'plan_type'" placeholder="Tipul" v-model="plan.type" />
-                <Input :id="index + 'plan_price'" placeholder="Preț" v-model.number="plan.amount" type="number" />
+                <Input
+                  :id="index + 'plan_price'"
+                  placeholder="Preț"
+                  :model-value="plan.amount?.toString()"
+                  @update:model-value="val => (plan.amount = Number(val))"
+                  type="number"
+                />
 
                 <Input
                   :value="plan?.benefits?.join(',')"
@@ -414,7 +434,7 @@ const removePlan = async (index: number) => {
 
       <!-- PREVIEW -->
       <div class="flex-1 flex flex-col gap-6">
-        <TeacherHero :teacherData="teacherProfile" />
+        <TeacherHero :teacherData="teacherProfile" :is-member="false" :join-loading="false" />
         <TeacherGroups :groups="teacherProfile.groups" />
         <TeacherPricing :plans="teacherProfile.pricingPlans" />
       </div>

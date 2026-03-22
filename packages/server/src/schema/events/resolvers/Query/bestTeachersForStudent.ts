@@ -8,10 +8,12 @@ export const bestTeachersForStudent: NonNullable<QueryResolvers['bestTeachersFor
 ) => {
   const prisma = ctx.prisma
 
-  let studentProfile = ctx.user ? await prisma.profile.findUnique({
-    where: { id: profileId },
-    include: { availabilitySlots: true },
-  }) : null
+  let studentProfile = ctx.user
+    ? await prisma.profile.findUnique({
+        where: { id: profileId },
+        include: { availabilitySlots: true },
+      })
+    : null
 
   const teachers = await prisma.teacher.findMany({
     include: {
