@@ -17,11 +17,11 @@ const teacherId = computed(() => {
 const { result, loading } = useQuery(
   GetTeacherDocument,
   () => ({
-    teacherId: teacherId.value as string
+    teacherId: teacherId.value as string,
   }),
   () => ({
-    enabled: !!teacherId.value
-  })
+    enabled: !!teacherId.value,
+  }),
 )
 
 const teacher = computed(() => {
@@ -29,52 +29,51 @@ const teacher = computed(() => {
   return result.value.teacher
 })
 
-
 const GET_TEACHER_STUDENTS = graphql(`
-query GetTeacherStudents($teacherId: ID!) {
-  teacher(teacherId: $teacherId) {
-    students {
-      profile {
-        id
+  query GetTeacherStudents($teacherId: ID!) {
+    teacher(teacherId: $teacherId) {
+      students {
+        profile {
+          id
+        }
       }
     }
   }
-}
 `)
 
-const { result: resultStudents, loading: loadingStudents, refetch } = useQuery(
+const {
+  result: resultStudents,
+  loading: loadingStudents,
+  refetch,
+} = useQuery(
   GET_TEACHER_STUDENTS,
   () => ({
-    teacherId: teacherId.value as string
+    teacherId: teacherId.value as string,
   }),
   () => ({
-    enabled: !!teacherId.value
-  })
+    enabled: !!teacherId.value,
+  }),
 )
 
 const students = computed<string[]>(() => {
   if (!resultStudents.value) return []
 
-  return resultStudents.value.teacher.students
-    ?.map((s: any) => s?.profile?.id)
-    .filter((id): id is string => !!id) || []
+  return resultStudents.value.teacher.students?.map((s: any) => s?.profile?.id).filter((id): id is string => !!id) || []
 })
 
 const selectedProfileId = ref(typeof window === 'undefined' ? '' : (localStorage.getItem('profileId') ?? ''))
 const isMember = computed(() => {
   if (!selectedProfileId.value) return false
 
-  return students.value.some(
-    (s: string) => s === selectedProfileId.value
-  )
+  return students.value.some((s: string) => s === selectedProfileId.value)
 })
 
 const TEACHER_STUDENT_ADD = graphql(`
-mutation TeacherStudentAdd($teacherId: ID!, $studentProfileId: ID!) {
-  teacherStudentAdd(teacherId: $teacherId, studentProfileId: $studentProfileId) {
-    id
+  mutation TeacherStudentAdd($teacherId: ID!, $studentProfileId: ID!) {
+    teacherStudentAdd(teacherId: $teacherId, studentProfileId: $studentProfileId) {
+      id
+    }
   }
-}
 `)
 const { mutate: joinTeacher, loading: joinLoading } = useMutation(TEACHER_STUDENT_ADD)
 
@@ -86,7 +85,7 @@ async function join() {
   try {
     await joinTeacher({
       teacherId: teacherId.value,
-      studentProfileId: selectedProfileId.value
+      studentProfileId: selectedProfileId.value,
     })
 
     await refetch()
@@ -94,15 +93,12 @@ async function join() {
     console.error(err)
   }
 }
-
 </script>
 
 <template>
   <div v-if="loading">Loading...</div>
   <div v-else class="flex justify-center w-full">
-    <div
-      class="flex flex-col gap-16 w-full max-w-6xl m-3 my-10 p-10 border-slate-800 rounded-lg"
-    >
+    <div class="flex flex-col gap-16 w-full max-w-6xl m-3 my-10 p-10 border-slate-800 rounded-lg">
       <TeacherHero
         :isMember="isMember"
         :joinLoading="joinLoading || loadingStudents"

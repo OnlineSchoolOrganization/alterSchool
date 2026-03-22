@@ -13,7 +13,7 @@ const { isWhiteTheme, setTheme } = useTheme()
         :class="{ 'theme-toggle__option--active': !isWhiteTheme }"
         @click="setTheme('default')"
       >
-        Current
+        Dark
       </button>
       <button
         type="button"

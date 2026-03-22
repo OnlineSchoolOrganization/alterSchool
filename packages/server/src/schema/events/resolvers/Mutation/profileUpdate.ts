@@ -44,15 +44,19 @@ function normalizeOptionalString(value?: string | null) {
   return normalized ? normalized : null
 }
 
-export const profileUpdate: NonNullable<MutationResolvers['profileUpdate']> = async (_parent, { profileId, email, firstName, lastName, phoneNumber, username }, ctx) => {
+export const profileUpdate: NonNullable<MutationResolvers['profileUpdate']> = async (
+  _parent,
+  { profileId, email, firstName, lastName, phoneNumber, username },
+  ctx,
+) => {
   return await ctx.prisma.profile.update({
-    where: { id: profileId},
+    where: { id: profileId },
     data: {
       ...(email && { email }),
-      ...(firstName && { firstName}),
-      ...(lastName && { lastName}),
-      ...(phoneNumber && { phoneNumber}),
-      ...(username && { username}),
+      ...(firstName && { firstName }),
+      ...(lastName && { lastName }),
+      ...(phoneNumber && { phoneNumber }),
+      ...(username && { username }),
     },
   })
 }

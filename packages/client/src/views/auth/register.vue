@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
-import { RegisterDocument, ProfileCreateDocument, UserRole, DayOfWeek } from '@/api/graphql.ts'
+import { RegisterDocument, ProfileCreateDocument, UserRole, DayOfWeek, MeForMenuDocument } from '@/api/graphql.ts'
 import { useRouter } from 'vue-router'
 // import AuthLayout from './layout.vue'
 
@@ -48,6 +48,7 @@ const register = async () => {
     if (!token) throw new Error('Registration failed')
 
     localStorage.setItem('token', token)
+    window.dispatchEvent(new Event('auth-changed'))
     if (credentials.value.type === 'Parent') {
       router.push('/student/create?type=parent')
     } else {
@@ -60,7 +61,7 @@ const register = async () => {
 </script>
 <template>
   <!-- <AuthLayout> -->
-  <div class="flex justify-center items-center w-full h-dvh">
+  <div class="flex justify-center items-center w-full">
     <div
       class="w-md min-w-xs m-3 flex flex-col bg-[color-mix(in_oklab,var(--color-slate-900)_50%,transparent)] p-10 border-slate-800 border rounded-lg gap-10"
     >

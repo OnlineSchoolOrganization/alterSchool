@@ -32,5 +32,5 @@ export const Teacher: TeacherResolvers = {
       ...g,
       price: Number(g.price),
     }))
-  }
+  },
 }

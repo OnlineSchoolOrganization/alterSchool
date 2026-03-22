@@ -12,7 +12,7 @@ const isMobileMenuOpen = ref(false)
 </script>
 
 <template>
-  <div class="flex h-screen bg-[#0a0a0b] text-zinc-300 font-sans overflow-hidden">
+  <div class="flex flex-1 bg-[#0a0a0b] text-zinc-300 font-sans overflow-hidden">
     <div
       v-if="isMobileMenuOpen"
       @click="isMobileMenuOpen = false"

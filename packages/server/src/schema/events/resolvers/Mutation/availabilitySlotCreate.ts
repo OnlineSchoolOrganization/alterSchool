@@ -9,7 +9,7 @@ export const availabilitySlotCreate: NonNullable<MutationResolvers['availability
       profileId,
       dayOfWeek: slot.dayOfWeek,
       startTime: slot.startTime,
-      duration: slot.duration
-    }
+      duration: slot.duration,
+    },
   })
 }

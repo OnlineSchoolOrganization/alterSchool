@@ -95,6 +95,7 @@
   --color-neutral-300: #4a433d;
   --color-neutral-400: #655c54;
   --color-black: #ede8df;
+  --color-white: black;
 }
 
 body {
@@ -118,9 +119,6 @@ body {
 }
 
 .theme-toggle-shell {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
   z-index: 80;
 }
 

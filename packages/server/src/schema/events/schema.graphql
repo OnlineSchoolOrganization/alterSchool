@@ -161,14 +161,22 @@ type AvailabilitySlot {
   updatedAt: DateTime!
 }
 
+type TeacherMatch {
+  teacher: Teacher!
+  overlapCount: Int!
+  overlapWithStudents: Int!
+  score: Float!
+}
+
 extend type Query {
   user: User!
   teachers: [Teacher!]!
   users(filter: String, skip: Int!, take: Int!): [User!]!
   usersCount(filter: String): Int!
   userById(id: ID!): User
-  me(userId: ID): User!
+  me(userId: ID): User
   teacher(teacherId: ID!): Teacher!
+  bestTeachersForStudent(profileId: ID!): [TeacherMatch!]!
 }
 
 input IAvailabilitySlot {

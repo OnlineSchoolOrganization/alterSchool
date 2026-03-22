@@ -68,6 +68,27 @@ query GetTeacher($teacherId: ID!) {
   }
 }
 
+query GetBestTeachers($profileId: ID!) {
+  bestTeachersForStudent(profileId: $profileId) {
+    teacher {
+      id
+      bio
+      profile {
+        id
+        firstName
+        lastName
+        username
+      }
+      pricingPlans {
+        amount
+      }
+    }
+    overlapCount
+    overlapWithStudents
+    score
+  }
+}
+
 query GetTeachers {
   teachers {
     id

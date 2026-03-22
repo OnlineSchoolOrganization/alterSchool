@@ -5,7 +5,7 @@ export const availabilitySlotDelete: NonNullable<MutationResolvers['availability
   ctx,
 ) => {
   await ctx.prisma.availabilitySlot.delete({
-    where: { id: slotId }
+    where: { id: slotId },
   })
 
   return true
