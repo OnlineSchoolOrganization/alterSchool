@@ -5,3 +5,104 @@ query Me {
     role
   }
 }
+
+query GetTeacher($teacherId: ID!) {
+  teacher(teacherId: $teacherId) {
+    id
+    bio
+
+    profile {
+      id
+      firstName
+      lastName
+      username
+
+      availabilitySlots {
+        id
+        dayOfWeek
+        startTime
+        duration
+      }
+    }
+
+    stats {
+      id
+      label
+      value
+    }
+
+    pricingPlans {
+      id
+      type
+      label
+      amount
+      benefits
+    }
+
+    groups {
+      id
+      name
+      description
+      price
+      capacity
+      benefits
+
+      sessions {
+        id
+        dayOfWeek
+        startTime
+        duration
+      }
+
+      promo {
+        id
+        badgeText
+        description
+        oldPrice
+      }
+
+      students {
+        id
+      }
+    }
+  }
+}
+
+query GetBestTeachers($profileId: ID!) {
+  bestTeachersForStudent(profileId: $profileId) {
+    teacher {
+      id
+      bio
+      profile {
+        id
+        firstName
+        lastName
+        username
+      }
+      pricingPlans {
+        amount
+      }
+    }
+    overlapCount
+    overlapWithStudents
+    score
+  }
+}
+
+query GetTeachers {
+  teachers {
+    id
+    bio
+
+    profile {
+      id
+      firstName
+      lastName
+      username
+    }
+
+    pricingPlans {
+      amount
+    }
+  }
+}

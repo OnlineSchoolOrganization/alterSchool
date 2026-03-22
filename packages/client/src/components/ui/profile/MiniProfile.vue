@@ -1,29 +1,80 @@
 <script setup lang="ts">
-import Button from '../Button.vue';
-const props = defineProps<{
-    photo?: string,
-    name: string,
-    email?: string | null,
+import Button from '../Button.vue'
+
+const props = withDefaults(
+  defineProps<{
+    photo?: string
+    name: string
+    email?: string | null
+    subtitle?: string
+    meta?: string
+    active?: boolean
+    actionLabel?: string
+  }>(),
+  {
+    photo: undefined,
+    email: undefined,
+    subtitle: '',
+    meta: '',
+    active: false,
+    actionLabel: 'Folosește profilul',
+  },
+)
+
+const emit = defineEmits<{
+  (e: 'select'): void
 }>()
+
+function initials(name: string) {
+  return name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(part => part[0]?.toUpperCase() ?? '')
+    .join('')
+}
 </script>
 
 <template>
-  <div class="flex flex-col group h-full bg-slate-900/50 p-8 rounded-xl border border-white/10 hover:border-emerald-500/50 hover:shadow-xl hover:shadow-emerald-500/10 cursor-pointer items-center transition-all text-center">
-    
-    <div class="mb-4 w-20 h-20 rounded-full border border-white/20 bg-slate-800 flex justify-center items-center group-hover:bg-emerald-500/20 group-hover:border-emerald-500/50 transition-colors">
-      <img v-if="photo" :src="photo" :alt="name" class="rounded-full object-cover">
-      <span v-else class="text-2xl font-bold text-white/80">
-        {{ name.split(' ').map(n => n[0]).join('').toUpperCase() }}
-      </span>
+  <article
+    class="flex h-full flex-col rounded-2xl border p-6 transition-colors"
+    :class="
+      props.active
+        ? 'border-emerald-500 bg-emerald-500/5'
+        : 'border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_45%,transparent)] hover:border-slate-700'
+    "
+  >
+    <div class="flex items-start gap-4">
+      <div
+        class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border text-lg font-semibold"
+        :class="
+          props.active
+            ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-300'
+            : 'border-slate-700 bg-slate-800/80 text-zinc-100'
+        "
+      >
+        <img v-if="props.photo" :src="props.photo" :alt="props.name" class="h-full w-full rounded-2xl object-cover" />
+        <span v-else>{{ initials(props.name) }}</span>
+      </div>
+
+      <div class="min-w-0 flex-1">
+        <div v-if="props.meta" class="mb-2">
+          <span
+            class="rounded-full border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-slate-300"
+          >
+            {{ props.meta }}
+          </span>
+        </div>
+        <h3 class="text-lg font-medium text-zinc-100">{{ props.name }}</h3>
+        <p v-if="props.subtitle" class="mt-1 text-sm text-slate-400">{{ props.subtitle }}</p>
+        <p v-else-if="props.email" class="mt-1 text-sm text-slate-400">{{ props.email }}</p>
+      </div>
     </div>
 
-    <div class="grow flex flex-col gap-1 mb-6">
-      <h3 class="font-semibold text-white text-lg">{{ name }}</h3>
-      <p v-if="email" class="text-sm text-slate-400">{{ email }}</p>
+    <div class="mt-6">
+      <Button :variant="props.active ? 'secondary-green' : 'secondary'" @click="emit('select')">
+        {{ props.active ? 'Profil activ' : props.actionLabel }}
+      </Button>
     </div>
-
-    <div class="w-full">
-        <Button>folosește profil</Button>
-    </div>
-  </div>
+  </article>
 </template>

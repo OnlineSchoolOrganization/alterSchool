@@ -7,6 +7,7 @@ import Input from '@/components/ui/Input.vue'
 import Button from '@/components/ui/Button.vue'
 import ErrorMessage from '@/components/ui/ErrorMessage.vue'
 import { useRouter } from 'vue-router'
+import { MeForMenuDocument} from '@/api/graphql.ts'
 // import AuthLayout from "./layout.vue"
 
 const credentials = ref({
@@ -30,7 +31,8 @@ const login = async () => {
     if (!token) throw new Error('Login failed')
 
     localStorage.setItem('token', token)
-    router.push('/acount')
+    window.dispatchEvent(new Event('auth-changed'))
+    router.push('/teacher/list')
   } catch (err: any) {
     error.value = err.message ?? 'Login error'
   }
@@ -38,8 +40,10 @@ const login = async () => {
 </script>
 <template>
   <!-- <AuthLayout> -->
-  <div class="flex justify-center items-center w-full h-dvh">
-    <div class="w-md min-w-xs m-3 flex flex-col bg-[color-mix(in_oklab,var(--color-slate-900)_50%,transparent)] p-10 border-slate-800 border rounded-lg gap-10">
+  <div class="flex justify-center items-center w-full">
+    <div
+      class="w-md min-w-xs m-3 flex flex-col bg-[color-mix(in_oklab,var(--color-slate-900)_50%,transparent)] p-10 border-slate-800 border rounded-lg gap-10"
+    >
       <div class="text-center">
         <h1 class="text-2xl font-medium text-zing-100">Bine ai revenit</h1>
         <p class="text-slate-400">Conecteaza-te pentru a-ți satisface curiozitatea</p>
@@ -67,7 +71,7 @@ const login = async () => {
         />
         <ErrorMessage v-if="error">{{ error }}</ErrorMessage>
         <Button type="submit" :variant="loading ? 'block' : 'primary'">
-          {{ loading ? "Loading..." : "Login" }}
+          {{ loading ? 'Loading...' : 'Login' }}
         </Button>
         <div class="pt-4 text-center">
           Nu ai cont? <router-link to="register" class="text-emerald-400 font-bold">Înregistrează-te</router-link>

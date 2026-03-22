@@ -28,7 +28,7 @@ const validate = z.object({
 
   username: z
     .string({ message: 'Numele este obligatoriu' })
-    .min(2, { message: "Numele trebuie sa aiba mai mult de 2 caractere" })
+    .min(2, { message: 'Numele trebuie sa aiba mai mult de 2 caractere' })
     .max(64, { message: 'Numele trebuie să aibă maximum 64 caractere' }),
 
   availabilitySlots: z.array(availabilitySlotSchema),

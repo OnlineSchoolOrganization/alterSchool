@@ -50,21 +50,6 @@ model Student {
   groups    Group[]
 }
 
-// const teacherData = ref({
-//   activeGroups: [
-//     { 
-//       id: 1, name: "Meditații matematică clasa a 8-a", 
-//       sessions: [{ day: 'Luni', time: '15:00' }, { day: 'Miercuri', time: '17:00' }],
-//       filled: 2, capacity: 5, price: 150,
-//     },
-//   ],
-//   pricingPlans: [
-//     { type: 'Grup', label: 'Grup Standard (3-5)', amount: 200, benefits: ['Materiale studiu incluse', 'Grup de suport 24/7', 'Feedback săptămânal'] },
-//     { type: 'Duo', label: 'Grup Premium (2)', amount: 300, benefits: ['Focus dublu', 'Corectură teme live', 'Ritm adaptabil'] },
-//     { type: 'Solo', label: 'Individual (1-1)', amount: 400, benefits: ['Prioritate totală', 'Materiale personalizate', 'Program flexibil'] }
-//   ]
-// });
-
 model Teacher {
   id        String    @id @default(uuid()) @db.Uuid
   bio       String    @db.VarChar(1024)
@@ -74,6 +59,34 @@ model Teacher {
   profile   Profile   @relation(fields: [profileId], references: [id])
   students  Student[] @relation("StudentToTeacher")
   groups    Group[]
+
+  stats TeacherStat[]
+  pricingPlans PricingPlan[]
+}
+
+model TeacherStat {
+  id        String   @id @default(uuid()) @db.Uuid
+  teacherId String   @db.Uuid
+  label     String   @db.VarChar(64)
+  value     String   @db.VarChar(64)
+
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+
+  @@index([teacherId])
+}
+
+model PricingPlan {
+  id        String   @id @default(uuid()) @db.Uuid
+  teacherId String   @db.Uuid
+
+  type      String   @db.VarChar(32)   // Grup, Duo, Solo
+  label     String   @db.VarChar(128)
+  amount    Decimal  @db.Decimal(10, 2)
+  benefits  String[]
+
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+
+  @@index([teacherId])
 }
 
 model Group {
@@ -89,8 +102,19 @@ model Group {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   sessions    GroupSession[]
+  promo GroupPromo?
 
   @@index([teacherId])
+}
+
+model GroupPromo {
+  id          String   @id @default(uuid()) @db.Uuid
+  groupId     String   @unique @db.Uuid
+  badgeText   String   @db.VarChar(64)
+  description String   @db.VarChar(255)
+  oldPrice    Decimal? @db.Decimal(10, 2)
+
+  group       Group    @relation(fields: [groupId], references: [id])
 }
 
 model GroupSession {

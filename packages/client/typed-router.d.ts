@@ -37,6 +37,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/auth/logout': RouteRecordInfo<
+      '/auth/logout',
+      '/auth/logout',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/auth/register': RouteRecordInfo<
       '/auth/register',
       '/auth/register',
@@ -107,23 +114,30 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/profile/create': RouteRecordInfo<
-      '/profile/create',
-      '/profile/create',
+    '/student/create': RouteRecordInfo<
+      '/student/create',
+      '/student/create',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/profile/select': RouteRecordInfo<
-      '/profile/select',
-      '/profile/select',
+    '/student/dashboard/': RouteRecordInfo<
+      '/student/dashboard/',
+      '/student/dashboard',
       Record<never, never>,
       Record<never, never>,
       | never
     >,
-    '/teacher/': RouteRecordInfo<
-      '/teacher/',
-      '/teacher',
+    '/teacher/[id]/': RouteRecordInfo<
+      '/teacher/[id]/',
+      '/teacher/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
+    '/teacher/dashboard/': RouteRecordInfo<
+      '/teacher/dashboard/',
+      '/teacher/dashboard',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -164,6 +178,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/auth/login.vue': {
       routes:
         | '/auth/login'
+      views:
+        | never
+    }
+    'src/views/auth/logout.vue': {
+      routes:
+        | '/auth/logout'
       views:
         | never
     }
@@ -227,21 +247,27 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/profile/create.vue': {
+    'src/views/student/create.vue': {
       routes:
-        | '/profile/create'
+        | '/student/create'
       views:
         | never
     }
-    'src/views/profile/select.vue': {
+    'src/views/student/dashboard/index.vue': {
       routes:
-        | '/profile/select'
+        | '/student/dashboard/'
       views:
         | never
     }
-    'src/views/teacher/index.vue': {
+    'src/views/teacher/[id]/index.vue': {
       routes:
-        | '/teacher/'
+        | '/teacher/[id]/'
+      views:
+        | never
+    }
+    'src/views/teacher/dashboard/index.vue': {
+      routes:
+        | '/teacher/dashboard/'
       views:
         | never
     }
