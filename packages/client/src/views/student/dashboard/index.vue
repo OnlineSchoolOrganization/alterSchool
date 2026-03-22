@@ -46,7 +46,6 @@ const ProfileUpdateDocument = gql`
     $lastName: String
     $email: String
     $phoneNumber: String
-    $availabilitySlots: [IAvailabilitySlot!]!
   ) {
     profileUpdate(
       profileId: $profileId
@@ -54,7 +53,6 @@ const ProfileUpdateDocument = gql`
       lastName: $lastName
       email: $email
       phoneNumber: $phoneNumber
-      availabilitySlots: $availabilitySlots
     ) {
       id
       username
@@ -80,7 +78,7 @@ const sections = [
 type SectionKey = (typeof sections)[number]['key']
 
 const activeSection = ref<SectionKey>('profiles')
-const selectedProfileId = ref(typeof window === 'undefined' ? '' : localStorage.getItem('profileId') ?? '')
+const selectedProfileId = ref(typeof window === 'undefined' ? '' : (localStorage.getItem('profileId') ?? ''))
 const feedback = ref('')
 const saveError = ref('')
 
@@ -95,8 +93,8 @@ const form = ref({
 const { result, loading, error } = useQuery<UserProfilesResult>(GET_MY_PROFILES)
 const profiles = computed(() => (result.value?.user?.profiles ?? []).filter(profile => profile.deleted === false))
 
-const selectedProfile = computed(() =>
-  profiles.value.find(profile => profile.id === selectedProfileId.value) ?? profiles.value[0] ?? null,
+const selectedProfile = computed(
+  () => profiles.value.find(profile => profile.id === selectedProfileId.value) ?? profiles.value[0] ?? null,
 )
 
 const studentProfilesCount = computed(
@@ -212,7 +210,6 @@ async function submit() {
       lastName: form.value.lastName || null,
       email: form.value.email || null,
       phoneNumber: form.value.phoneNumber || null,
-      availabilitySlots: form.value.availabilitySlots,
     })
     feedback.value = 'Profilul a fost salvat.'
     activeSection.value = 'profiles'
@@ -225,16 +222,23 @@ async function submit() {
 <template>
   <div class="flex justify-center w-full px-3 py-8 lg:py-12">
     <div class="w-full max-w-7xl flex flex-col gap-6 pb-24 md:pb-0">
-      <section class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_55%,transparent)] p-6 md:p-8 lg:p-10">
+      <section
+        class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_55%,transparent)] p-6 md:p-8 lg:p-10"
+      >
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-3xl space-y-3">
-            <span class="inline-flex w-max rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-medium tracking-wide text-emerald-300">
+            <span
+              class="inline-flex w-max rounded-full border border-emerald-500/40 bg-emerald-500/10 px-3 py-1 text-xs font-medium tracking-wide text-emerald-300"
+            >
               Dashboard profil
             </span>
             <div class="space-y-2">
-              <h1 class="text-3xl font-medium text-zinc-100 md:text-4xl">Alege și administrează rapid profilul activ</h1>
+              <h1 class="text-3xl font-medium text-zinc-100 md:text-4xl">
+                Alege și administrează rapid profilul activ
+              </h1>
               <p class="max-w-2xl text-sm leading-6 text-slate-400 md:text-base">
-                Profilul selectat aici este cel folosit mai departe în fluxurile de înscriere către profesori. Poți schimba profilul activ și îi poți edita datele din aceeași pagină.
+                Profilul selectat aici este cel folosit mai departe în fluxurile de înscriere către profesori. Poți
+                schimba profilul activ și îi poți edita datele din aceeași pagină.
               </p>
             </div>
           </div>
@@ -258,10 +262,7 @@ async function submit() {
       <ErrorMessage v-else-if="error">{{ error.message }}</ErrorMessage>
 
       <template v-else>
-        <section
-          v-if="activeSection === 'profiles'"
-          class="grid grid-cols-1 gap-5 lg:grid-cols-[1.2fr_0.8fr]"
-        >
+        <section v-if="activeSection === 'profiles'" class="grid grid-cols-1 gap-5 lg:grid-cols-[1.2fr_0.8fr]">
           <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
             <MiniProfile
               v-for="profile in profiles"
@@ -276,20 +277,25 @@ async function submit() {
             <AddProfile />
           </div>
 
-          <div class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_45%,transparent)] p-6 md:p-8">
+          <div
+            class="rounded-2xl border border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_45%,transparent)] p-6 md:p-8"
+          >
             <template v-if="selectedProfile">
               <div class="space-y-5">
                 <div>
                   <h2 class="text-2xl font-medium text-zinc-100">Profil activ</h2>
                   <p class="mt-2 text-sm leading-6 text-slate-400">
-                    Acesta este profilul folosit implicit în restul aplicației. Dacă vrei să modifici datele, mergi în tab-ul de editare.
+                    Acesta este profilul folosit implicit în restul aplicației. Dacă vrei să modifici datele, mergi în
+                    tab-ul de editare.
                   </p>
                 </div>
 
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <div class="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                     <div class="text-[11px] uppercase tracking-[0.22em] text-slate-500">Nume</div>
-                    <div class="mt-2 text-sm font-medium leading-6 text-zinc-100">{{ profileName(selectedProfile) }}</div>
+                    <div class="mt-2 text-sm font-medium leading-6 text-zinc-100">
+                      {{ profileName(selectedProfile) }}
+                    </div>
                   </div>
                   <div class="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                     <div class="text-[11px] uppercase tracking-[0.22em] text-slate-500">Rol</div>
@@ -297,18 +303,26 @@ async function submit() {
                   </div>
                   <div class="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                     <div class="text-[11px] uppercase tracking-[0.22em] text-slate-500">Email</div>
-                    <div class="mt-2 text-sm font-medium leading-6 text-zinc-100">{{ selectedProfile.email || 'Nu este setat' }}</div>
+                    <div class="mt-2 text-sm font-medium leading-6 text-zinc-100">
+                      {{ selectedProfile.email || 'Nu este setat' }}
+                    </div>
                   </div>
                   <div class="rounded-xl border border-slate-800 bg-slate-950/40 p-4">
                     <div class="text-[11px] uppercase tracking-[0.22em] text-slate-500">Telefon</div>
-                    <div class="mt-2 text-sm font-medium leading-6 text-zinc-100">{{ selectedProfile.phoneNumber || 'Nu este setat' }}</div>
+                    <div class="mt-2 text-sm font-medium leading-6 text-zinc-100">
+                      {{ selectedProfile.phoneNumber || 'Nu este setat' }}
+                    </div>
                   </div>
                 </div>
 
-                <div class="rounded-xl border border-emerald-500/50 bg-emerald-500/10 p-4 text-sm leading-6 text-emerald-200">
-                  {{ selectedProfile.roleProfile?.__typename === 'Student'
-                    ? 'Acest profil poate fi folosit direct când conectezi un profesor.'
-                    : 'Pentru conectarea la profesori, selectează un profil de tip elev.' }}
+                <div
+                  class="rounded-xl border border-emerald-500/50 bg-emerald-500/10 p-4 text-sm leading-6 text-emerald-200"
+                >
+                  {{
+                    selectedProfile.roleProfile?.__typename === 'Student'
+                      ? 'Acest profil poate fi folosit direct când conectezi un profesor.'
+                      : 'Pentru conectarea la profesori, selectează un profil de tip elev.'
+                  }}
                 </div>
 
                 <div class="flex gap-3">
@@ -332,22 +346,36 @@ async function submit() {
               <div class="flex flex-col gap-2 border-b border-slate-800 pb-5">
                 <h2 class="text-2xl font-medium text-zinc-100">Editează profilul selectat</h2>
                 <p class="text-sm leading-6 text-slate-400">
-                  Modifici rapid datele profilului activ, iar schimbările sunt folosite imediat în fluxurile unde profilul este selectat.
+                  Modifici rapid datele profilului activ, iar schimbările sunt folosite imediat în fluxurile unde
+                  profilul este selectat.
                 </p>
               </div>
 
               <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <Input v-model="form.firstName" id="profile-first-name" label="Prenume" placeholder="Scrie prenumele" />
                 <Input v-model="form.lastName" id="profile-last-name" label="Nume" placeholder="Scrie numele" />
-                <Input v-model="form.email" id="profile-email" type="email" label="Email" placeholder="email@exemplu.com" />
-                <Input v-model="form.phoneNumber" id="profile-phone" type="tel" label="Telefon" placeholder="07xx xxx xxx" />
+                <Input
+                  v-model="form.email"
+                  id="profile-email"
+                  type="email"
+                  label="Email"
+                  placeholder="email@exemplu.com"
+                />
+                <Input
+                  v-model="form.phoneNumber"
+                  id="profile-phone"
+                  type="tel"
+                  label="Telefon"
+                  placeholder="07xx xxx xxx"
+                />
               </div>
 
               <div class="space-y-4">
                 <div>
                   <h3 class="text-xl font-medium text-zinc-100">Disponibilitate</h3>
                   <p class="mt-1 text-sm leading-6 text-slate-400">
-                    Pentru profilurile de elev, această disponibilitate este folosită mai departe la alegerea profesorului și la formarea grupelor.
+                    Pentru profilurile de elev, această disponibilitate este folosită mai departe la alegerea
+                    profesorului și la formarea grupelor.
                   </p>
                 </div>
                 <TimeSlots :availabilitySlots="form.availabilitySlots" :loading="saving" @toggle="toggleSlot" />
@@ -362,7 +390,9 @@ async function submit() {
               </div>
 
               <div class="flex flex-col gap-3 sm:flex-row sm:justify-between">
-                <Button type="button" variant="secondary" @click="activeSection = 'profiles'">Înapoi la profiluri</Button>
+                <Button type="button" variant="secondary" @click="activeSection = 'profiles'"
+                  >Înapoi la profiluri</Button
+                >
                 <Button type="submit" :variant="saving ? 'block' : 'primary'">
                   {{ saving ? 'Se salvează...' : 'Salvează profilul' }}
                 </Button>
@@ -370,9 +400,7 @@ async function submit() {
             </form>
           </template>
 
-          <div v-else class="text-sm text-slate-400">
-            Nu există niciun profil de editat.
-          </div>
+          <div v-else class="text-sm text-slate-400">Nu există niciun profil de editat.</div>
         </section>
       </template>
     </div>

@@ -49,21 +49,21 @@
   --color-background: #ede8df;
   --color-background-soft: #f4f0e8;
   --color-background-mute: #e5dfd4;
-  --color-border: rgba(120, 113, 108, 0.20);
+  --color-border: rgba(120, 113, 108, 0.2);
   --color-border-hover: rgba(120, 113, 108, 0.32);
   --color-heading: #2b2622;
   --color-text: #45403b;
   --app-bg: #ede8df;
   --app-panel: #f6f1e8;
   --app-panel-muted: rgba(246, 241, 232, 0.92);
-  --app-overlay: rgba(66, 55, 44, 0.10);
+  --app-overlay: rgba(66, 55, 44, 0.1);
   --app-border: rgba(120, 113, 108, 0.22);
   --app-border-strong: rgba(120, 113, 108, 0.34);
   --app-text: #2b2622;
   --app-text-soft: #5b534c;
   --app-text-muted: #857a70;
   --app-accent: #8a6848;
-  --app-shadow: 0 18px 44px rgba(91, 83, 76, 0.10);
+  --app-shadow: 0 18px 44px rgba(91, 83, 76, 0.1);
   color-scheme: light;
 }
 
@@ -105,7 +105,8 @@ body {
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  font-family:
+    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -146,7 +147,10 @@ body {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .theme-toggle__option:hover {

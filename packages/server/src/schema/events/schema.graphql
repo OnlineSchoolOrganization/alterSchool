@@ -70,6 +70,8 @@ type Student implements Role {
   createdAt: DateTime!
   updatedAt: DateTime!
 
+  filterBestTeachers: [Teacher!]
+
   teachers: [Teacher!]
 }
 
@@ -79,8 +81,70 @@ type Teacher implements Role {
   profile: Profile
   createdAt: DateTime!
   updatedAt: DateTime!
+  bio: String
 
   students: [Student!]
+
+  stats: [TeacherStat!]
+  pricingPlans: [PricingPlan!]
+  groups: [Group!]
+}
+
+type TeacherStat {
+  id: ID!
+  teacherId: ID!
+  label: String!
+  value: String!
+}
+
+type PricingPlan {
+  id: ID!
+  teacherId: ID!
+
+  type: String!
+  label: String!
+  amount: Float!
+  benefits: [String!]
+}
+
+type Group {
+  id: ID!
+  name: String!
+  description: String
+
+  teacherId: ID!
+  teacher: Teacher
+
+  students: [Student!]
+
+  price: Float!
+  capacity: Int!
+  benefits: [String!]
+
+  sessions: [GroupSession!]
+  promo: GroupPromo
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type GroupSession {
+  id: ID!
+  groupId: ID!
+  dayOfWeek: DayOfWeek!
+  startTime: Int!
+  duration: Int!
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type GroupPromo {
+  id: ID!
+  groupId: ID!
+  badgeText: String!
+  description: String!
+  oldPrice: Float
 }
 
 type AvailabilitySlot {
@@ -104,12 +168,39 @@ extend type Query {
   usersCount(filter: String): Int!
   userById(id: ID!): User
   me(userId: ID): User!
+  teacher(teacherId: ID!): Teacher!
 }
 
 input IAvailabilitySlot {
   dayOfWeek: DayOfWeek!
   startTime: Int!
   duration: Int!
+}
+
+input ITeacherStatCreate {
+  label: String!
+  value: String!
+}
+
+input ITeacherStatUpdate {
+  id: ID!
+  label: String
+  value: String
+}
+
+input IPricingPlanCreate {
+  type: String!
+  label: String!
+  amount: Float!
+  benefits: [String!]!
+}
+
+input IPricingPlanUpdate {
+  id: ID!
+  type: String
+  label: String
+  amount: Float
+  benefits: [String!]
 }
 
 extend type Mutation {
@@ -126,11 +217,25 @@ extend type Mutation {
     profileId: ID!
     firstName: String
     lastName: String
+    username: String
     email: String
     phoneNumber: String
-    availabilitySlots: [IAvailabilitySlot!]!
   ): Profile!
+
   teacherAdd(userId: ID!): Profile!
   teacherRemove(userId: ID!): Profile!
   teacherStudentAdd(teacherId: ID!, studentProfileId: ID!): Teacher!
+
+  teacherBioUpdate(teacherId: ID!, bio: String!): Teacher!
+
+  teacherStatCreate(teacherId: ID!, stat: ITeacherStatCreate!): TeacherStat!
+  teacherStatUpdate(stat: ITeacherStatUpdate!): TeacherStat!
+  teacherStatDelete(statId: ID!): Boolean!
+
+  teacherPricingPlanCreate(teacherId: ID!, plan: IPricingPlanCreate!): PricingPlan!
+  teacherPricingPlanUpdate(plan: IPricingPlanUpdate!): PricingPlan!
+  teacherPricingPlanDelete(planId: ID!): Boolean!
+
+  availabilitySlotCreate(profileId: ID!, slot: IAvailabilitySlot!): AvailabilitySlot!
+  availabilitySlotDelete(slotId: ID!): Boolean!
 }

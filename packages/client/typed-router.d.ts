@@ -107,20 +107,6 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/profile/create': RouteRecordInfo<
-      '/profile/create',
-      '/profile/create',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/profile/select': RouteRecordInfo<
-      '/profile/select',
-      '/profile/select',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/student/create': RouteRecordInfo<
       '/student/create',
       '/student/create',
@@ -135,11 +121,11 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/teacher/': RouteRecordInfo<
-      '/teacher/',
-      '/teacher',
-      Record<never, never>,
-      Record<never, never>,
+    '/teacher/[id]/': RouteRecordInfo<
+      '/teacher/[id]/',
+      '/teacher/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
       | never
     >,
     '/teacher/dashboard/': RouteRecordInfo<
@@ -248,18 +234,6 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/profile/create.vue': {
-      routes:
-        | '/profile/create'
-      views:
-        | never
-    }
-    'src/views/profile/select.vue': {
-      routes:
-        | '/profile/select'
-      views:
-        | never
-    }
     'src/views/student/create.vue': {
       routes:
         | '/student/create'
@@ -272,9 +246,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/views/teacher/index.vue': {
+    'src/views/teacher/[id]/index.vue': {
       routes:
-        | '/teacher/'
+        | '/teacher/[id]/'
       views:
         | never
     }

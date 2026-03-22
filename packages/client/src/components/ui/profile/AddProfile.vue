@@ -10,7 +10,9 @@ const router = useRouter()
     class="flex h-full flex-col justify-between rounded-2xl border border-dashed border-slate-700 bg-[color-mix(in_oklab,var(--color-slate-900)_35%,transparent)] p-6 transition-colors hover:border-emerald-500/60 hover:bg-emerald-500/5"
   >
     <div>
-      <div class="flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-slate-600 bg-slate-800/60 text-3xl text-emerald-300">
+      <div
+        class="flex h-14 w-14 items-center justify-center rounded-2xl border border-dashed border-slate-600 bg-slate-800/60 text-3xl text-emerald-300"
+      >
         +
       </div>
       <h3 class="mt-5 text-lg font-medium text-zinc-100">Adaugă profil nou</h3>

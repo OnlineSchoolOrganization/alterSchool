@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import Button from '../Button.vue'
 
-const props = withDefaults(defineProps<{
-  photo?: string
-  name: string
-  email?: string | null
-  subtitle?: string
-  meta?: string
-  active?: boolean
-  actionLabel?: string
-}>(), {
-  photo: undefined,
-  email: undefined,
-  subtitle: '',
-  meta: '',
-  active: false,
-  actionLabel: 'Folosește profilul',
-})
+const props = withDefaults(
+  defineProps<{
+    photo?: string
+    name: string
+    email?: string | null
+    subtitle?: string
+    meta?: string
+    active?: boolean
+    actionLabel?: string
+  }>(),
+  {
+    photo: undefined,
+    email: undefined,
+    subtitle: '',
+    meta: '',
+    active: false,
+    actionLabel: 'Folosește profilul',
+  },
+)
 
 const emit = defineEmits<{
   (e: 'select'): void
@@ -35,19 +38,30 @@ function initials(name: string) {
 <template>
   <article
     class="flex h-full flex-col rounded-2xl border p-6 transition-colors"
-    :class="props.active ? 'border-emerald-500 bg-emerald-500/5' : 'border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_45%,transparent)] hover:border-slate-700'"
+    :class="
+      props.active
+        ? 'border-emerald-500 bg-emerald-500/5'
+        : 'border-slate-800 bg-[color-mix(in_oklab,var(--color-slate-900)_45%,transparent)] hover:border-slate-700'
+    "
   >
     <div class="flex items-start gap-4">
-      <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border text-lg font-semibold"
-        :class="props.active ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-300' : 'border-slate-700 bg-slate-800/80 text-zinc-100'"
+      <div
+        class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border text-lg font-semibold"
+        :class="
+          props.active
+            ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-300'
+            : 'border-slate-700 bg-slate-800/80 text-zinc-100'
+        "
       >
-        <img v-if="props.photo" :src="props.photo" :alt="props.name" class="h-full w-full rounded-2xl object-cover">
+        <img v-if="props.photo" :src="props.photo" :alt="props.name" class="h-full w-full rounded-2xl object-cover" />
         <span v-else>{{ initials(props.name) }}</span>
       </div>
 
       <div class="min-w-0 flex-1">
         <div v-if="props.meta" class="mb-2">
-          <span class="rounded-full border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-slate-300">
+          <span
+            class="rounded-full border border-slate-700 bg-slate-800/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.22em] text-slate-300"
+          >
             {{ props.meta }}
           </span>
         </div>
