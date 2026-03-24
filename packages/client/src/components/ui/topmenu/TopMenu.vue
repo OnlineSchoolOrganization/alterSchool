@@ -50,6 +50,7 @@ onBeforeUnmount(() => {
     <div class="flex items-center gap-2 flex-wrap">
       <MenuItem label="Admin" to="/dashboard" :show="!!isSuperUser" />
       <MenuItem label="Teacher Dashboard" to="/teacher/dashboard" :show="!!hasTeacherProfile" />
+      <MenuItem label="Groups" to="/teacher/group" :show="!!hasTeacherProfile" />
       <MenuItem label="Teacher List" to="/teacher/list" :show="true" />
       <MenuItem label="Student Dashboard" to="/student/dashboard" :show="!!me" />
       <MenuItem label="Create Student" to="/student/create" :show="!!me" />

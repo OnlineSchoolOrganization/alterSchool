@@ -142,6 +142,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/teacher/group/': RouteRecordInfo<
+      '/teacher/group/',
+      '/teacher/group',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/teacher/list': RouteRecordInfo<
       '/teacher/list',
       '/teacher/list',
@@ -268,6 +275,12 @@ declare module 'vue-router/auto-routes' {
     'src/views/teacher/dashboard/index.vue': {
       routes:
         | '/teacher/dashboard/'
+      views:
+        | never
+    }
+    'src/views/teacher/group/index.vue': {
+      routes:
+        | '/teacher/group/'
       views:
         | never
     }

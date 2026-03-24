@@ -11,6 +11,7 @@ export const teacherPricingPlanUpdate: NonNullable<MutationResolvers['teacherPri
       ...(plan.label && { label: plan.label }),
       ...(plan.amount && { amount: plan.amount }),
       ...(plan.benefits && { benefits: plan.benefits }),
+      ...(plan.capacity && { capacity: plan.capacity}),
     },
   })
   return {

@@ -240,6 +240,7 @@ const saveProfileChanges = async () => {
         await planCreate({
           teacherId: profile.id,
           plan: {
+            capacity: plan.capacity || 0,
             amount: plan.amount,
             benefits: plan.benefits || [],
             label: plan.label,
@@ -313,8 +314,9 @@ const addPlan = () => {
     teacherProfile.value?.pricingPlans.push({
       id: 'new',
       type: 'individual',
+      capacity: 1,
       label: '',
-      amount: 0,
+      amount: 200,
       benefits: [],
     })
 }
@@ -396,6 +398,13 @@ const removePlan = async (index: number) => {
               >
                 <Input :id="index + 'plan_label'" placeholder="Titlu" v-model="plan.label" />
                 <Input :id="index + 'plan_type'" placeholder="Tipul" v-model="plan.type" />
+                <Input
+                  :id="index + 'plan_capacity'"
+                  placeholder="Capacitatea"
+                  :model-value="plan.capacity?.toString()"
+                  @update:model-value="val => (plan.capacity = Number(val))"
+                  type="number"
+                />
                 <Input
                   :id="index + 'plan_price'"
                   placeholder="Preț"

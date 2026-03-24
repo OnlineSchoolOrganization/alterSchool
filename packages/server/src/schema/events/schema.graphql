@@ -18,6 +18,25 @@ enum DayOfWeek {
   SUNDAY
 }
 
+enum EducationType {
+  SCHOOL
+  UNIVERSITY
+  OTHER
+}
+
+enum GroupStatus {
+  PENDING
+  ACTIVE
+  FULL
+  CANCELLED
+}
+
+enum GroupStudentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 union RoleProfile = Teacher | Student
 
 type User {
@@ -46,10 +65,15 @@ type Profile {
   username: String!
   userId: ID!
   user: User
+
+  birthDate: DateTime
+
   availabilitySlots: [AvailabilitySlot!]
 
   roleProfile: RoleProfile
   deleted: Boolean!
+
+  curriculums: [Curriculum!]
 
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -70,9 +94,14 @@ type Student implements Role {
   createdAt: DateTime!
   updatedAt: DateTime!
 
+  grade: Int
+  educationType: EducationType
+
   filterBestTeachers: [Teacher!]
 
   teachers: [Teacher!]
+
+  groupMemberships: [GroupStudent!]
 }
 
 type Teacher implements Role {
@@ -101,6 +130,7 @@ type PricingPlan {
   id: ID!
   teacherId: ID!
 
+  capacity: Int
   type: String!
   label: String!
   amount: Float!
@@ -117,12 +147,45 @@ type Group {
 
   students: [Student!]
 
+  memberships: [GroupStudent!]
+
+  curriculum: Curriculum
+  status: GroupStatus!
+
   price: Float!
   capacity: Int!
   benefits: [String!]
 
   sessions: [GroupSession!]
   promo: GroupPromo
+
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type GroupStudent {
+  groupId: ID!
+  studentId: ID!
+
+  group: Group
+  student: Student
+
+  status: GroupStudentStatus!
+  joinedAt: DateTime!
+}
+
+type Curriculum {
+  id: ID!
+  name: String!
+  description: String
+
+  minAge: Int
+  maxAge: Int
+
+  minGrade: Int
+  maxGrade: Int
+
+  educationType: EducationType!
 
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -177,6 +240,7 @@ extend type Query {
   me(userId: ID): User
   teacher(teacherId: ID!): Teacher!
   bestTeachersForStudent(profileId: ID!): [TeacherMatch!]!
+  curriculums: [Curriculum!]!
 }
 
 input IAvailabilitySlot {
@@ -197,6 +261,7 @@ input ITeacherStatUpdate {
 }
 
 input IPricingPlanCreate {
+  capacity: Int!
   type: String!
   label: String!
   amount: Float!
@@ -205,22 +270,38 @@ input IPricingPlanCreate {
 
 input IPricingPlanUpdate {
   id: ID!
+  capacity: Int
   type: String
   label: String
   amount: Float
   benefits: [String!]
 }
 
+input IGroupStudentUpdate {
+  groupId: ID!
+  studentId: ID!
+  status: GroupStudentStatus!
+}
+
+input IStudentEducationUpdate {
+  grade: Int
+  educationType: EducationType
+}
+
 extend type Mutation {
   userSignIn(email: String!, password: String!): String!
   userSignUp(email: String!, phoneNumber: String!, password: String!, username: String!): String!
+
   profileCreate(
     email: String
     phoneNumber: String
     username: String!
     availabilitySlots: [IAvailabilitySlot!]!
     type: UserRole!
+
+    birthDate: DateTime
   ): Profile!
+
   profileUpdate(
     profileId: ID!
     firstName: String
@@ -228,6 +309,8 @@ extend type Mutation {
     username: String
     email: String
     phoneNumber: String
+
+    birthDate: DateTime
   ): Profile!
 
   teacherAdd(userId: ID!): Profile!
@@ -246,4 +329,15 @@ extend type Mutation {
 
   availabilitySlotCreate(profileId: ID!, slot: IAvailabilitySlot!): AvailabilitySlot!
   availabilitySlotDelete(slotId: ID!): Boolean!
+
+  studentEducationUpdate(
+    profileId: ID!
+    data: IStudentEducationUpdate!
+  ): Student!
+  profileCurriculumsUpdate(
+    profileId: ID!
+    curriculumIds: [ID!]!
+  ): Profile!
+
+  createGroup(name: String!, studentIds: [ID!]!): Group!
 }

@@ -94,6 +94,7 @@ export const profileCreate: NonNullable<MutationResolvers['profileCreate']> = as
       email,
       username,
       phoneNumber,
+      birthDate: _arg.birthDate,
       availabilitySlots: {
         create: availabilitySlots.map(slot => ({
           dayOfWeek: slot.dayOfWeek,

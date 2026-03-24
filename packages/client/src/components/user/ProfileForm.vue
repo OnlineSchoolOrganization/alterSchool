@@ -35,15 +35,15 @@ function toggleSlot(dayOfWeek: DayOfWeek, startTime: number) {
 // Aceasta este funcția "magică" pe care o vom apela din Register
 const submitProfile = async (overrideEmail?: string) => {
   try {
-    const result = await mutate({
-      email: overrideEmail || form.value.email,
-      username: form.value.firstName,
-      phoneNumber: form.value.phoneNumber,
-      availabilitySlots: form.value.availabilitySlots,
-      type: props.role === 'Student' ? UserRole.User : UserRole.User,
-    })
-    emit('success', result)
-    return result
+    // const result = await mutate({
+    //   email: overrideEmail || form.value.email,
+    //   username: form.value.firstName,
+    //   phoneNumber: form.value.phoneNumber,
+    //   availabilitySlots: form.value.availabilitySlots,
+    //   type: props.role === 'Student' ? UserRole.User : UserRole.User,
+    // })
+    // emit('success', result)
+    // return result
   } catch (err) {
     emit('error', err)
     throw err

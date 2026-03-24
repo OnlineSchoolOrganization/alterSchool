@@ -12,6 +12,7 @@ mutation ProfileCreate(
   $username: String!
   $availabilitySlots: [IAvailabilitySlot!]!
   $type: UserRole!
+  $birthDate: DateTime!
 ) {
   profileCreate(
     email: $email
@@ -19,6 +20,7 @@ mutation ProfileCreate(
     username: $username
     availabilitySlots: $availabilitySlots
     type: $type
+    birthDate: $birthDate
   ) {
     id
   }

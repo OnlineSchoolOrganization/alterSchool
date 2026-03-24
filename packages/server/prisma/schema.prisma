@@ -38,16 +38,23 @@ model Profile {
   student           Student?
   teacher           Teacher?
   badges            Badge[]            @relation("ProfileToBadge")
+  curriculums ProfileCurriculum[]
+  birthDate   DateTime?
 }
 
 model Student {
   id        String    @id @default(uuid()) @db.Uuid
   profileId String    @unique @db.Uuid
+
+  grade     Int?      // ex: 1–12
+  educationType EducationType?
+  
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
   profile   Profile   @relation(fields: [profileId], references: [id])
   teachers  Teacher[] @relation("StudentToTeacher")
-  groups    Group[]
+  groups    GroupStudent[]
 }
 
 model Teacher {
@@ -80,6 +87,7 @@ model PricingPlan {
   teacherId String   @db.Uuid
 
   type      String   @db.VarChar(32)   // Grup, Duo, Solo
+  capacity Int?
   label     String   @db.VarChar(128)
   amount    Decimal  @db.Decimal(10, 2)
   benefits  String[]
@@ -90,21 +98,45 @@ model PricingPlan {
 }
 
 model Group {
-  id          String         @id @default(uuid()) @db.Uuid
-  name        String         @db.VarChar(128)
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(128)
   description String?
-  teacher     Teacher        @relation(fields: [teacherId], references: [id])
-  teacherId   String         @db.Uuid
-  students    Student[]
-  price       Decimal        @db.Decimal(10, 2)
+
+  teacherId   String   @db.Uuid
+  teacher     Teacher  @relation(fields: [teacherId], references: [id])
+
+  curriculumId String? @db.Uuid
+  curriculum   Curriculum? @relation(fields: [curriculumId], references: [id])
+
+  status      GroupStatus @default(PENDING)
+
+  students    GroupStudent[]
+
+  price       Decimal  @db.Decimal(10, 2)
   capacity    Int
   benefits    String[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
   sessions    GroupSession[]
-  promo GroupPromo?
+  promo       GroupPromo?
 
   @@index([teacherId])
+}
+
+model GroupStudent {
+  groupId   String @db.Uuid
+  studentId String @db.Uuid
+
+  status    GroupStudentStatus @default(PENDING)
+
+  joinedAt  DateTime @default(now())
+
+  group     Group   @relation(fields: [groupId], references: [id])
+  student   Student @relation(fields: [studentId], references: [id])
+
+  @@id([groupId, studentId])
 }
 
 model GroupPromo {
@@ -152,6 +184,43 @@ model AvailabilitySlot {
   @@unique([profileId, dayOfWeek, startTime])
 }
 
+model Curriculum {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @db.VarChar(128)
+  description String?  @db.VarChar(255)
+
+  // restricții
+  minAge      Int?
+  maxAge      Int?
+
+  minGrade    Int?
+  maxGrade    Int?
+
+  educationType EducationType
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  profiles    ProfileCurriculum[]
+  groups      Group[]
+}
+
+model ProfileCurriculum {
+  profileId   String @db.Uuid
+  curriculumId String @db.Uuid
+
+  profile     Profile   @relation(fields: [profileId], references: [id])
+  curriculum  Curriculum @relation(fields: [curriculumId], references: [id])
+
+  @@id([profileId, curriculumId])
+}
+
+enum EducationType {
+  SCHOOL
+  UNIVERSITY
+  OTHER
+}
+
 enum UserRole {
   SUPER_USER
   STAFF
@@ -168,4 +237,17 @@ enum DayOfWeek {
   FRIDAY
   SATURDAY
   SUNDAY
+}
+
+enum GroupStatus {
+  PENDING
+  ACTIVE
+  FULL
+  CANCELLED
+}
+
+enum GroupStudentStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }

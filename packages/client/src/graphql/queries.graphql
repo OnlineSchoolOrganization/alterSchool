@@ -34,6 +34,7 @@ query GetTeacher($teacherId: ID!) {
     pricingPlans {
       id
       type
+      capacity
       label
       amount
       benefits
